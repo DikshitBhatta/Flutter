@@ -9,61 +9,104 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          //backgroundColor: Colors.lightGreen,
-          leading: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.menu),
-          ),
-          title: Text(
-            'Home',
-            textAlign: TextAlign.start,
-          ),
-          actions: <Widget>[
-            IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
-          ],
-          flexibleSpace: SafeArea(
-            child: Icon(
-              Icons.camera,
-              size: 87.00,
-              color: Colors.black,
-            ),
-          ),
-          bottom: PreferredSize(
-              preferredSize: Size.fromHeight(100.00),
-              child: Container(
-                color: Colors.lightGreen.shade100,
-                height: 75.00,
-                width: double.infinity,
-                child: Center(
-                  child: Text('Bottom'),
-                ),
-              )),
+      appBar: AppBar(
+        //backgroundColor: Colors.lightGreen,
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.menu),
         ),
-        body: Padding(
-          padding: EdgeInsets.all(16.00),
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  const Containerwithboxdecoration(),
-                  Divider(),
-                  const columnexample(),
-                  Divider(),
-                  const rowexample(),
-                  Divider(),
-                  const columnrownestedexample(),
-                ],
+        title: Text(
+          'Home',
+          textAlign: TextAlign.start,
+        ),
+        actions: <Widget>[
+          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+        ],
+        flexibleSpace: SafeArea(
+          child: Icon(
+            Icons.camera,
+            size: 87.00,
+            color: Colors.black,
+          ),
+        ),
+        bottom: PreferredSize(
+            preferredSize: Size.fromHeight(100.00),
+            child: Container(
+              color: Colors.lightGreen.shade100,
+              height: 75.00,
+              width: double.infinity,
+              child: Center(
+                child: Text('Bottom'),
               ),
+            )),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.00),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                const Containerwithboxdecoration(),
+                Divider(),
+                const columnexample(),
+                Divider(),
+                const rowexample(),
+                Divider(),
+                const columnrownestedexample(),
+                TextButton(
+                  onPressed: () {},
+                  child: Icon(Icons.flag),
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.lightBlue),
+                  ),
+                ),
+                Divider(),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Icon(Icons.save),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStatePropertyAll(Colors.lightGreen.shade200)),
+                ),
+                Divider(),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.flight),
+                  iconSize: 42.00,
+                  color: Colors.pink,
+                  tooltip: 'Flight',
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.play_arrow),
+        //label: Text('Play'),
+        backgroundColor: Colors.lightGreen.shade100,
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.lightGreen.shade100,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Icon(Icons.pause),
+            Icon(Icons.stop),
+            Icon(Icons.access_time),
+            Padding(padding: EdgeInsets.all(00.00))
+          ],
+        ),
+      ),
+    );
   }
 }
 
 class Containerwithboxdecoration extends StatelessWidget {
-  const Containerwithboxdecoration({key}) : super(key: key);
+  const Containerwithboxdecoration({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -126,7 +169,7 @@ class Containerwithboxdecoration extends StatelessWidget {
 }
 
 class columnexample extends StatelessWidget {
-  const columnexample({key}) : super(key: key);
+  const columnexample({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -145,7 +188,7 @@ class columnexample extends StatelessWidget {
 }
 
 class rowexample extends StatelessWidget {
-  const rowexample({key}) : super(key: key);
+  const rowexample({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -164,7 +207,7 @@ class rowexample extends StatelessWidget {
 }
 
 class columnrownestedexample extends StatelessWidget {
-  const columnrownestedexample({key}) : super(key: key);
+  const columnrownestedexample({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -177,7 +220,6 @@ class columnrownestedexample extends StatelessWidget {
         Text('columna and row nesting 3'),
         Padding(padding: EdgeInsets.all(16.00)),
         Row(
-         
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text('Row1'),
