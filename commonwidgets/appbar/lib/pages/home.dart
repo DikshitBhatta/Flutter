@@ -11,9 +11,27 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         //backgroundColor: Colors.lightGreen,
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.menu),
+        leading: PopupMenuButton<ToDoMenuItem>(
+          icon: Icon(Icons.view_list),
+          onSelected: ((valueSelected) {
+            print('valueSelected: ${valueSelected.title}');
+          }),
+          itemBuilder: (BuildContext context) {
+            return foodMenuList.map((ToDoMenuItem todoMenuItem) {
+              return PopupMenuItem<ToDoMenuItem>(
+                value: todoMenuItem,
+                child: Row(
+                  children: <Widget>[
+                    Icon(todoMenuItem.icon?.icon),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                    ),
+                    Text(todoMenuItem.title!),
+                  ],
+                ),
+              );
+            }).toList();
+          },
         ),
         title: Text(
           'Home',
@@ -30,16 +48,18 @@ class _HomeState extends State<Home> {
             color: Colors.black,
           ),
         ),
-        bottom: PreferredSize(
-            preferredSize: Size.fromHeight(100.00),
-            child: Container(
-              color: Colors.lightGreen.shade100,
-              height: 75.00,
-              width: double.infinity,
-              child: Center(
-                child: Text('Bottom'),
-              ),
-            )),
+        bottom: PopupMenuButtonWidget(),
+        /*PreferredSize(
+          preferredSize: Size.fromHeight(100.00),
+          child: Container(
+            color: Colors.lightGreen.shade100,
+            height: 75.00,
+            width: double.infinity,
+            child: Center(
+              child: Text('Bottom'),
+            ),
+          ),
+        ),*/
       ),
       body: Padding(
         padding: EdgeInsets.all(16.00),
@@ -77,6 +97,7 @@ class _HomeState extends State<Home> {
                   color: Colors.pink,
                   tooltip: 'Flight',
                 ),
+                Divider(),
               ],
             ),
           ),
@@ -230,4 +251,57 @@ class columnrownestedexample extends StatelessWidget {
       ],
     );
   }
+}
+
+class ToDoMenuItem {
+  final String? title;
+  final Icon? icon;
+  ToDoMenuItem({this.title, this.icon});
+}
+
+List<ToDoMenuItem> foodMenuList = [
+  ToDoMenuItem(title: 'Fast food', icon: Icon(Icons.fastfood)),
+  ToDoMenuItem(title: 'Remind me', icon: Icon(Icons.add_alarm)),
+  ToDoMenuItem(title: 'Flight', icon: Icon(Icons.flight)),
+  ToDoMenuItem(title: 'Music', icon: Icon(Icons.audiotrack)),
+];
+
+class PopupMenuButtonWidget extends StatelessWidget
+    implements PreferredSizeWidget {
+  const PopupMenuButtonWidget({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.lightGreen.shade100,
+      height: preferredSize.height,
+      width: double.infinity,
+      child: Center(
+        child: PopupMenuButton<ToDoMenuItem>(
+          icon: Icon(Icons.view_list),
+          onSelected: ((valueSelected) {
+            print('valueSelected: ${valueSelected.title}');
+          }),
+          itemBuilder: (BuildContext context) {
+            return foodMenuList.map((ToDoMenuItem todoMenuItem) {
+              return PopupMenuItem<ToDoMenuItem>(
+                value: todoMenuItem,
+                child: Row(
+                  children: <Widget>[
+                    Icon(todoMenuItem.icon!.icon),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                    ),
+                    Text(todoMenuItem.title!),
+                  ],
+                ),
+              );
+            }).toList();
+          },
+        ),
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(75.0);
 }
