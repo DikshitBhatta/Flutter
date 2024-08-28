@@ -88,7 +88,29 @@ class Containerwithboxdecoration extends StatelessWidget {
           child: Center(
             child: RichText(
               text: TextSpan(
-                  text: 'container', style: TextStyle(fontSize: 20.00)),
+                text: 'Flutter World',
+                style: TextStyle(
+                    fontSize: 20.00,
+                    color: Colors.deepPurple,
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.deepOrangeAccent,
+                    decorationStyle: TextDecorationStyle.dotted,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: ' for ',
+                  ),
+                  TextSpan(
+                    text: ' Mobile ',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
