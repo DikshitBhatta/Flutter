@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
         flexibleSpace: SafeArea(
           child: Icon(
             Icons.camera,
-            size: 87.00,
+            size: 60.00,
             color: Colors.black,
           ),
         ),
@@ -319,5 +319,5 @@ class PopupMenuButtonWidget extends StatelessWidget
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(75.0);
+  Size get preferredSize => Size.fromHeight(50.0);
 }
