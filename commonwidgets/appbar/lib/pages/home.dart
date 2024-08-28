@@ -98,6 +98,22 @@ class _HomeState extends State<Home> {
                   tooltip: 'Flight',
                 ),
                 Divider(),
+                Container(
+                    color: Colors.amber,
+                    child: OverflowBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.map),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.airport_shuttle),
+                        ),
+                        IconButton(onPressed: () {}, icon: Icon(Icons.brush)),
+                      ],
+                    ))
               ],
             ),
           ),
