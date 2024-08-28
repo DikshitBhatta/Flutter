@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
 
   Column _buildverticalcolumn() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         Container(
