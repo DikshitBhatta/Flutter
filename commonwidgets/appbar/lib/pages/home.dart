@@ -48,6 +48,12 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: <Widget>[
                   const Containerwithboxdecoration(),
+                  Divider(),
+                  const columnexample(),
+                  Divider(),
+                  const rowexample(),
+                  Divider(),
+                  const columnrownestedexample(),
                 ],
               ),
             ),
@@ -113,6 +119,71 @@ class Containerwithboxdecoration extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class columnexample extends StatelessWidget {
+  const columnexample({key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        Text('Column 1'),
+        Divider(),
+        Text('Column 2'),
+        Divider(),
+        Text('Column 3'),
+      ],
+    );
+  }
+}
+
+class rowexample extends StatelessWidget {
+  const rowexample({key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        Text('Row 1'),
+        Padding(padding: EdgeInsets.all(16.00)),
+        Text('Row 2'),
+        Padding(padding: EdgeInsets.all(16.00)),
+        Text('Row 3'),
+      ],
+    );
+  }
+}
+
+class columnrownestedexample extends StatelessWidget {
+  const columnrownestedexample({key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        Text('column and row nesting 1'),
+        Text('column and row nesting 2'),
+        Text('columna and row nesting 3'),
+        Padding(padding: EdgeInsets.all(16.00)),
+        Row(
+         
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text('Row1'),
+            Text('Row 2'),
+            Text('Row 3'),
+          ],
         ),
       ],
     );
