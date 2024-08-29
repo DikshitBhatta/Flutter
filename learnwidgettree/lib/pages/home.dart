@@ -25,7 +25,9 @@ class _HomeState extends State<Home> {
                 Padding(
                   padding: EdgeInsets.all(16.00),
                 ),
-                _buildhorizontalrow3()
+                _buildhorizontalrow3(),
+                Divider(),
+                const PopupMenuButtonWidget(),
               ],
             ),
           ),
@@ -135,4 +137,48 @@ Row _buildHorizontalRow2() {
       )
     ],
   );
+}
+
+class ToDoMenuItem {
+  final String? title;
+  final Icon? icon;
+  ToDoMenuItem({this.title, this.icon});
+}
+
+List<ToDoMenuItem> foodMenuList = [
+  ToDoMenuItem(title: 'Breakfast', icon: Icon(Icons.food_bank)),
+  ToDoMenuItem(title: 'cycling', icon: Icon(Icons.bike_scooter)),
+  ToDoMenuItem(title: 'walking', icon: Icon(Icons.assist_walker)),
+  ToDoMenuItem(title: 'football', icon: Icon(Icons.sports_football)),
+];
+
+class PopupMenuButtonWidget extends StatelessWidget {
+  const PopupMenuButtonWidget({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.lightGreen.shade100,
+      child: PopupMenuButton<ToDoMenuItem>(
+        icon: Icon(Icons.view_list),
+        onSelected: ((valueSelected) {
+          print('valueSelected: ${valueSelected}');
+        }),
+        itemBuilder: (BuildContext context) {
+          return foodMenuList.map(
+            (ToDoMenuItem toDoMenuItem) {
+              return PopupMenuItem<ToDoMenuItem>(
+                value: toDoMenuItem,
+                child: Row(
+                  children: <Widget>[
+                    Icon(toDoMenuItem.icon!.icon),
+                    Text(toDoMenuItem.title!),
+                  ],
+                ),
+              );
+            },
+          ).toList();
+        },
+      ),
+    );
+  }
 }
