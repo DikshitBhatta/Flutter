@@ -21,7 +21,11 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.all(16.00),
             child: Column(
               children: <Widget>[
-               const OrientationLayoutIconsWidget(),
+                const OrientationLayoutContiner(),
+                Divider(),
+                const GridViewWidget(),
+                Divider(),
+                const Orientationbuilderlayout(),
               ],
             ),
           ),
@@ -29,9 +33,108 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
 
+class Orientationbuilderlayout extends StatelessWidget {
+  const Orientationbuilderlayout({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return OrientationBuilder(
+        builder: (BuildContext context, Orientation orientation) {
+      return orientation == Orientation.portrait
+          ? Container(
+              alignment: Alignment.center,
+              color: Colors.yellow,
+              height: 100.00,
+              width: 100.00,
+              child: Text("Portrait"),
+            )
+          : Container(
+              alignment: Alignment.center,
+              color: Colors.green,
+              height: 100.00,
+              width: 200.00,
+              child: Text('Landscape'),
+            );
+    });
+  }
+}
 
-class OrientationLa
+class OrientationLayoutContiner extends StatelessWidget {
+  const OrientationLayoutContiner({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    Orientation _orientation = MediaQuery.of(context).orientation;
+    return _orientation == Orientation.portrait
+        ? Container(
+            alignment: Alignment.center,
+            color: Colors.yellow,
+            height: 100.00,
+            width: 100.00,
+            child: Text('Portrait'),
+          )
+        : Container(
+            alignment: Alignment.center,
+            color: Colors.green,
+            height: 100.00,
+            width: 200.00,
+            child: Text('Landscape'),
+          );
+  }
+}
+
+class GridViewWidget extends StatelessWidget {
+  const GridViewWidget({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    Orientation _orientation = MediaQuery.of(context).orientation;
+    return GridView.count(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      crossAxisCount: _orientation == Orientation.portrait ? 2 : 4,
+      childAspectRatio: 5.00,
+      children: List.generate(8, (int index) {
+        return Text(
+          "Grid $index",
+          textAlign: TextAlign.center,
+        );
+      }),
+    );
+  }
+}
+/*
+class OrientationLayoutIconsWidget extends StatelessWidget {
+  const OrientationLayoutIconsWidget({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    Orientation _orientation = MediaQuery.of(context).orientation;
+    return _orientation == Orientation.portrait
+        ? Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.school,
+                  size: 48.00,
+                ),
+              ],
+            ),
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                Icons.school,
+                size: 48.00,
+              ),
+              Icon(
+                Icons.brush,
+                size: 48.00,
+              ),
+            ],
+          );
+  }
+}
 
 
 
@@ -186,3 +289,4 @@ class PopupMenuButtonWidget extends StatelessWidget {
     );
   }
 }
+*/
