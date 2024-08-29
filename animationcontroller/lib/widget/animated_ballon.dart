@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AnimationcontrollerWidget extends StatefulWidget {
+  final VoidCallback onBallonbrust;
+  AnimationcontrollerWidget({required this.onBallonbrust});
   @override
   _AnimatedBallonState createState() => _AnimatedBallonState();
 }
@@ -30,7 +32,8 @@ class _AnimatedBallonState extends State<AnimationcontrollerWidget>
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
-                        _controllerfloatup.forward(); // Restart animation
+                        _controllerfloatup.forward();
+                        widget.onBallonbrust(); // Restart animation
                       },
                       child: Text("Try Again"),
                     ),

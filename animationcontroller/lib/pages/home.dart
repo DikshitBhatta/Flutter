@@ -7,6 +7,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool _hasShownPopup = false;
+  void _restartGame() {
+    if (_hasShownPopup) {
+      setState(() {
+        _hasShownPopup = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,10 +23,14 @@ class _HomeState extends State<Home> {
         title: Text("Animation Controller"),
       ),
       body: SafeArea(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          AnimationcontrollerWidget(),
+          AnimationcontrollerWidget(onBallonbrust: _restartGame),
+          AnimationcontrollerWidget(onBallonbrust: _restartGame),
+          AnimationcontrollerWidget(onBallonbrust: _restartGame),
+          AnimationcontrollerWidget(onBallonbrust: _restartGame),
         ],
       )),
     );
