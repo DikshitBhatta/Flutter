@@ -21,13 +21,7 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.all(16.00),
             child: Column(
               children: <Widget>[
-                _buildHorizontalRow(),
-                Padding(
-                  padding: EdgeInsets.all(16.00),
-                ),
-                _buildhorizontalrow3(),
-                Divider(),
-                const PopupMenuButtonWidget(),
+               const OrientationLayoutIconsWidget(),
               ],
             ),
           ),
@@ -35,6 +29,16 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+
+class OrientationLa
+
+
+
+
+
+
+
 
   Row _buildhorizontalrow3() {
     return Row(
