@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'fly.dart';
 
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,24 @@ class _AboutState extends State<About> {
           ),
         ],
       ),
-      body: SafeArea(child: Text('This is about page')),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16.00),
+          child: GestureDetector(
+            child: Hero(
+              tag: 'Paint',
+              child: Icon(
+                Icons.format_paint,
+                color: Colors.red,
+                size: 20.00,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Fly()));
+            },
+          ),
+        ),
+      ),
     );
   }
 }
