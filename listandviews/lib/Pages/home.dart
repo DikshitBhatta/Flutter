@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:listandviews/Pages/cardview.dart';
 import 'package:listandviews/Pages/listview.dart';
+import 'package:listandviews/Pages/listviewtile.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,7 +16,8 @@ class _HomeState extends State<Home> {
     super.initState();
     _listpages
       ..add(CardView())
-      ..add(Listview());
+      ..add(Listview())
+      ..add(Listviewtile());
     _currentPage = CardView();
   }
 
@@ -38,8 +40,18 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.card_giftcard), label: 'CardView'),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Listview'),
+            icon: Icon(Icons.card_giftcard),
+            label: 'CardView',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'ListTile',
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.list_alt_outlined,
+              ),
+              label: 'Listview')
         ],
         onTap: (selectedIndex) => _changePage(selectedIndex),
       ),
