@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navigator/Pages/about.dart';
 import 'package:navigator/Pages/gratitude.dart';
-import '';
 
 class Home extends StatefulWidget {
   @override
@@ -9,7 +8,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentindex=0;
   String? _howareYou;
   void _openpageAbout(
       {required BuildContext context, bool fullscreenDialog = false}) {
