@@ -1,3 +1,4 @@
+import 'package:bottomnavbar/widget/leftwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:bottomnavbar/Pages/fire.dart';
 import 'package:bottomnavbar/Pages/ball.dart';
@@ -30,6 +31,10 @@ class _birthdayState extends State<Birthday>
 
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Text('Drawer'),
+        ),
+        drawer: const Leftwidget(),
         body: SafeArea(
           child: TabBarView(controller: _tabController, children: [
             Fire(),
