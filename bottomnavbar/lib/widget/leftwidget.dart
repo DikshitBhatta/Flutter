@@ -1,4 +1,5 @@
 import 'package:bottomnavbar/widget/menu_list_tile.dart';
+import 'package:bottomnavbar/Pages/reminder.dart';
 import 'package:flutter/material.dart';
 
 class Leftwidget extends StatelessWidget {
@@ -22,7 +23,15 @@ class Leftwidget extends StatelessWidget {
               color: Colors.white,
             ),
             otherAccountsPictures: <Widget>[
-              Icon(Icons.bookmark_outline),
+              IconButton(
+                icon: Icon(Icons.bookmark_outline,
+                    color: Colors.white, fill: 1.00),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Reminder()));
+                },
+              ),
             ],
             decoration: BoxDecoration(
               image: DecorationImage(
