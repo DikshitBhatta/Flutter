@@ -22,9 +22,31 @@ class _HomeState extends State<Home> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Image(
-                image: AssetImage("assets/images/photo.JPG"),
-                color: Colors.red,
+              Stack(
+                children: <Widget>[
+                  Image(
+                    image: AssetImage("assets/images/photo.jpg"),
+                  ),
+                  Positioned(
+                    top: 0.00,
+                    right: 0.00,
+                    child: FractionalTranslation(
+                      translation: Offset(0.3, -0.3),
+                      child: CircleAvatar(
+                        radius: 30.00,
+                        child: Icon(Icons.star),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0.00,
+                    left: 0.00,
+                    child: Text(
+                      'Shree Krishna',
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                  ),
+                ],
               ),
               Divider(),
               Image.network(
