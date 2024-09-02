@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:layout/widgets/footer.dart';
+import 'package:layout/widgets/giftwrapper.dart';
+import 'package:layout/widgets/widget_header.dart';
+import 'package:layout/widgets/widget_weather.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -24,98 +28,13 @@ class _HomeState extends State<Home> {
           padding: EdgeInsets.all(16.00),
           child: Column(
             children: <Widget>[
-              Image(
-                image: AssetImage("assets/images/birthday.jpg"),
-              ),
-              Text(
-                'My Birthday',
-                style: TextStyle(
-                    fontSize: 40.00,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87),
-              ),
+              const WidgetHeader(),
               Divider(),
-              Text(
-                '''It's going to be great birhtday.
-We are going out for dinner at my 
-favorite place,then watch a movie after we
-go to galeteria for icecream and espresso. ''',
-                style: TextStyle(
-                  color: Colors.blueGrey,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
+              const WidgetWeather(),
               Divider(),
-              Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.sunny,
-                    color: Colors.amber,
-                    weight: 100.00,
-                  ),
-                  SizedBox(
-                    width: 20.00,
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        '81° Clear',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(color: Colors.deepOrange),
-                      ),
-                      Text(
-                        '4500 San Alpho Drive, Dallas, TX United States',
-                        style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.w100),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              const Giftwrapper(),
               Divider(),
-              Wrap(
-                children: List.generate(
-                  7,
-                  (int index) {
-                    return Chip(
-                      label: Text(
-                        "Gift ${index + 1}",
-                        style: TextStyle(fontSize: 10.00),
-                      ),
-                      avatar: Icon(Icons.card_giftcard),
-                    );
-                  },
-                ),
-              ),
-              Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 40.00,
-                    backgroundImage: AssetImage("assets/images/burger.jpg"),
-                  ),
-                  CircleAvatar(
-                    radius: 40.00,
-                    backgroundImage: AssetImage("assets/images/melon.jpg"),
-                  ),
-                  CircleAvatar(
-                    radius: 40.00,
-                    backgroundImage: AssetImage("assets/images/pasta.jpeg"),
-                  ),
-                  SizedBox(
-                    width: 15.00,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Icon(Icons.cake),
-                      Icon(Icons.star),
-                      Icon(Icons.music_note),
-                    ],
-                  )
-                ],
-              )
+              const Footer(),
             ],
           ),
         ),
