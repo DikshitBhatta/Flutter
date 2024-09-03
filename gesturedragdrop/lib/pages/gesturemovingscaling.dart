@@ -77,10 +77,83 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
     }
 
     void _onLongPress() {
-      print('onlongPress');
+      print('onLongPress');
       setState(() {
         _resettoDefaultValues();
       });
+    }
+
+    void _setscalebig() {
+      double bscale = _Lastscale * 2;
+      _Lastscale = bscale;
+      setState(() {
+        _currentScale = bscale;
+      });
+      if (bscale > 16.0) {
+        _currentScale:
+        1.0;
+        _resettoDefaultValues();
+      }
+    }
+
+    void _setscalesmall() {
+      double cScale = _Lastscale / 2;
+      _Lastscale = cScale;
+
+      setState(() {
+        _currentScale = cScale;
+      });
+      if (cScale < 0.1) {
+        _currentScale = 1.0;
+        _resettoDefaultValues();
+      }
+    }
+
+    Positioned _positionedInkwellAndInkRespose(BuildContext context) {
+      return Positioned(
+          top: 50.00,
+          width: MediaQuery.of(context).size.width,
+          child: Container(
+            color: Colors.white54,
+            height: 56.00,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                InkWell(
+                  child: Container(
+                    height: 48.00,
+                    width: 128.00,
+                    color: Colors.black12,
+                    child: Icon(
+                      Icons.touch_app,
+                      size: 32.00,
+                    ),
+                  ),
+                  splashColor: Colors.lightGreenAccent,
+                  highlightColor: Colors.lightBlueAccent,
+                  onTap: _setscalesmall,
+                  onDoubleTap: _setscalebig,
+                  onLongPress: _onLongPress,
+                ),
+                InkResponse(
+                  child: Container(
+                    height: 48.00,
+                    width: 128.00,
+                    color: Colors.black12,
+                    child: Icon(
+                      Icons.touch_app,
+                      size: 32.00,
+                    ),
+                  ),
+                  splashColor: Colors.pinkAccent,
+                  highlightColor: Colors.redAccent,
+                  onTap: _setscalesmall,
+                  onDoubleTap: _setscalebig,
+                  onLongPress: _onLongPress,
+                )
+              ],
+            ),
+          ));
     }
 
     return GestureDetector(
@@ -90,6 +163,9 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
           _transformscaleandTranslate(),
           _transformMatrix4(),
           _positionedStatusBar(context),
+          _positionedInkwellAndInkRespose(
+            context,
+          )
         ],
       ),
       onScaleStart: _onScaleStart,
