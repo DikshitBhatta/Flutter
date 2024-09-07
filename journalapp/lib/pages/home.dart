@@ -9,18 +9,18 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Database _database;
+  late Database _database;
   Future<List<Journal>> _loadJournals() async {
     await DatabaseFileRoutines().readJorunals().then((journalsJson) {
       _database = databaseFromJson(journalsJson);
       _database.journal
-          .sort((comp1, comp2) => comp2.date.compareTo(comp1.date));
+          .sort((comp1, comp2) => comp2.date!.compareTo(comp1.date!));
     });
     return _database.journal;
   }
 
   void _addorEditJournal({bool? add, int? index, Journal? journal}) async {
-    JournalEdit _journalEdit = JournalEdit(action: [], journal: journal!);
+    JournalEdit _journalEdit = JournalEdit(action: " ", journal: journal!);
     _journalEdit = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -34,13 +34,13 @@ class _HomeState extends State<Home> {
     );
     switch (_journalEdit.action) {
       case 'Save':
-        if (add) {
+        if (add!) {
           setState(() {
             _database.journal.add(_journalEdit.journal);
           });
         } else {
           setState(() {
-            _database.journal[index] = _journalEdit.journal;
+            _database.journal[index!] = _journalEdit.journal;
           });
         }
         DatabaseFileRoutines().writeJournals(databaseToJson(_database));
@@ -74,44 +74,51 @@ class _HomeState extends State<Home> {
             ),
           ),
           child: ListTile(
-              leading: Column(
+              leading: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                Text(
-                  DateFormat.d()
-                      .format(DateTime.parse(snapshot.data[index].date)),
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 32.00,
-                    fontWeight: FontWeight.bold,
-                  ),
+                    Expanded(
+                      child: Text(
+                        DateFormat.d()
+                            .format(DateTime.parse(snapshot.data[index].date)),
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 32.00,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      DateFormat.E().format(
+                        DateTime.parse(snapshot.data[index].date),
+                      ),
+                      style: TextStyle(
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  DateFormat.E().format(
-                    DateTime.parse(snapshot.data[index].date),
-                  ),
-                  style: TextStyle(
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
-                  title: Text(
-                    _titleData,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(_subtitle),
-                  onTap: () {
-                    _addorEditJournal(
-                      add: false,
-                      index: index,
-                      journal = snapshot.data[index],
-                    );
-                  })),
-          ondismissed: (direction) {
+              ),
+              title: Text(
+                _titleDate,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(_subtitle),
+              onTap: () {
+                _addorEditJournal(
+                  add: false,
+                  index: index,
+                  journal: snapshot.data[index],
+                );
+              }),
+          onDismissed: (direction) {
             setState(() {
               _database.journal.removeAt(index);
             });
+
+            DatabaseFileRoutines().writeJournals(databaseToJson(_database));
           },
-          DatabaseFileRoutines().writeJournals(databaseToJson(_database)),
         );
       },
       separatorBuilder: (BuildContext context, int index) {
@@ -146,7 +153,9 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
           tooltip: 'Add Journal Entry',
           child: Icon(Icons.add),
-          onPressed: () {}),
+          onPressed: () {
+            _addorEditJournal(add: true, index: -1, journal: Journal());
+          }),
     );
   }
 }

@@ -9,7 +9,7 @@ class DatabaseFileRoutines {
     return directory.path;
   }
 
-  Future<String> get _localFile async {
+  Future<File> get _localFile async {
     final path = await _localPath;
     return File('$path/local_persistence.json');
   }
@@ -17,10 +17,11 @@ class DatabaseFileRoutines {
   Future<String> readJorunals() async {
     try {
       final file = await _localFile;
-      if (!file.existssync) {
+      if (!file.existsSync()) {
         print('File does not exist: ${file.absolute}');
         await writeJournals('{"journals": []}');
       }
+
       String contents = await file.readAsString();
       return contents;
     } catch (e) {
@@ -29,7 +30,7 @@ class DatabaseFileRoutines {
     }
   }
 
-  Future<File> writeJournals(string json) async {
+  Future<File> writeJournals(String json) async {
     final file = await _localFile;
     return file.writeAsString('$json');
   }
@@ -47,7 +48,7 @@ String databaseToJson(Database data) {
 
 class Database {
   List<Journal> journal;
-  Database({this.journal});
+  Database({required this.journal});
 
   factory Database.fromJson(Map<String, dynamic> json) => Database(
         journal: List<Journal>.from(
@@ -69,9 +70,9 @@ class Journal {
 
   factory Journal.fromJson(Map<String, dynamic> json) => Journal(
         id: json["id"],
-        date: json("date"),
-        mood: json("mood"),
-        note: json("note"),
+        date: json["date"],
+        mood: json["mood"],
+        note: json["note"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -85,5 +86,5 @@ class Journal {
 class JournalEdit {
   String action;
   Journal journal;
-  JournalEdit({this.action, this.journal});
+  JournalEdit({required this.action, required this.journal});
 }
