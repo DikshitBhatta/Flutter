@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:journalapp/classes/database.dart';
+import 'package:journalapp/pages/editentry.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -6,6 +9,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Database _database;
+  Future<List<Journal>> _loadJournals() async {
+    await DatabaseFileRoutines().readJorunals().then((journalsJson) {
+      _database = databaseFromJson();
+      _database.journal
+          .sort((comp1, comp2) => comp2.data.compareTo(comp1.data));
+    });
+    return _database.journal;
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
