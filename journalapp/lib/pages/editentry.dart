@@ -112,7 +112,7 @@ class _EditentryState extends State<Editentry> {
                 textCapitalization: TextCapitalization.words,
                 decoration: InputDecoration(
                   label: 'MOOD',
-                  icon: Icon(Icons.modd),
+                  icon: Icon(Icons.mood),
                 ),
                 onSubmitted: (submitted){
                   FocusScope.of(context).requestFocus(_notenode);
@@ -126,7 +126,7 @@ class _EditentryState extends State<Editentry> {
                 textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(
                   labelText: 'note',
-                  icon: Icon(Icons.sunject),
+                  icon: Icon(Icons.subject),
                   
                 ),
                 maxLines: null,
