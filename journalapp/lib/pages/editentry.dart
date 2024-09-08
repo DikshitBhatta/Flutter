@@ -34,9 +34,11 @@ class _EditentryState extends State<Editentry> {
       _moodcontroller.text = '';
       _notecontroller.text = '';
     } else {
-      _selectedDate = DateTime.parse('_journalEdit.journal.date');
-      _moodcontroller.text = '_journalEdit.journal.mood';
-      _notecontroller.text = '_journalEdit.journal.note';
+      _selectedDate = widget.journalEdit.journal.date != null
+          ? DateTime.parse(widget.journalEdit.journal.date!)
+          : DateTime.now();
+      _moodcontroller.text = _journalEdit!.journal.mood!;
+      _notecontroller.text = _journalEdit!.journal.note!;
     }
   }
 
@@ -109,9 +111,26 @@ class _EditentryState extends State<Editentry> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black54,
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black54,
+                        ),
+                        onPressed: () async {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          DateTime? _pickdate = await showDatePicker(
+                            context: context,
+                            initialDate: _selectedDate ?? DateTime.now(),
+                            firstDate:
+                                DateTime.now().subtract(Duration(days: 360)),
+                            lastDate: DateTime.now().add(Duration(days: 360)),
+                          );
+                          if (_pickdate != null && _pickdate != _selectedDate) {
+                            setState(() {
+                              _selectedDate = _pickdate;
+                            });
+                          }
+                        },
                       ),
                     ],
                   ),
