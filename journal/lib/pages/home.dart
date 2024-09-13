@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:journal/pages/login.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _HomeState extends State<Home> {
       ),
       body: SafeArea(
           child: Container(
-        child: Text('hello'),
+        child: Login(),
       )),
       bottomNavigationBar: BottomAppBar(
         elevation: 0.00,

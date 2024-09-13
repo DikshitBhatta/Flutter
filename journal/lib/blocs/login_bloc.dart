@@ -24,22 +24,22 @@ class LoginBloc extends Validator {
 
   final StreamController<bool> _enableLoginCreateButtonController =
       StreamController<bool>.broadcast();
-  Sink<bool> get _enableLoginCreateButtonChanged =>
+  Sink<bool> get enableLoginCreateButtonChanged =>
       _enableLoginCreateButtonController.sink;
-  Stream<bool> get _enableLoginCreateButton =>
+  Stream<bool> get enableLoginCreateButton =>
       _enableLoginCreateButtonController.stream;
 
   final StreamController<String> _loginOrCreateButtonController =
       StreamController<String>.broadcast();
-  Sink<String> get _loginOrCreateButtonChanged =>
+  Sink<String> get loginOrCreateButtonChanged =>
       _loginOrCreateButtonController.sink;
-  Stream<String> get _loginOrCreateButton =>
+  Stream<String> get loginOrCreateButton =>
       _loginOrCreateButtonController.stream;
 
   final StreamController<String> _loginOrCreateController =
       StreamController<String>.broadcast();
-  Sink<String> get _loginOrCreateChanged => _loginOrCreateController.sink;
-  Stream<String> get _loginOrCreate => _loginOrCreateController.stream;
+  Sink<String> get loginOrCreateChanged => _loginOrCreateController.sink;
+  Stream<String> get loginOrCreate => _loginOrCreateController.stream;
 
   LoginBloc(this.authenticationApi) {
     _startListnersIfLoginPasswordAreValid();
