@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:journal/blocs/login_bloc.dart';
 import 'package:journal/pages/login.dart';
+import 'package:journal/blocs/authentication_bloc.dart';
+import 'package:journal/blocs/authentication_bloc_provider.dart';
+import 'package:journal/blocs/homebloc.dart';
+import 'package:journal/blocs/homeblocProvider.dart';
+import 'package:journal/blocs/journalentry_bloc.dart';
+import 'package:journal/blocs/journalentrybloc_Provider.dart';
+import 'package:journal/classes/mood_icon.dart';
+import 'package:journal/classes/formatdates.dart';
+import 'package:journal/model/journal.dart';
+import 'package:journal/services/authentication.dart';
+import 'package:journal/services/db_firestore.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,6 +19,32 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  AuthenticationBloc _authenticationBloc;
+  Homebloc _homebloc;
+  String _uid;
+  MoodIcons _moodIcons;
+  Formatdates _formatdates;
+  @override
+  void initState() {
+    super.initState();
+    _loginBloc = LoginBloc(AuthenticationService());
+  }
+
+  @override
+  void didChangeDepedencies() {
+    super.didChangeDependencies();
+    _authenticationBloc =
+        AuthenticationBlocProvider().of(context).authenticationBloc;
+    _homebloc = Homeblocprovider().of(context).homebloc;
+    _uid = Homeblocprovider().of(context).uid;
+  }
+
+  @override
+  void dispose() {
+    _homebloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
