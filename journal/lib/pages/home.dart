@@ -19,11 +19,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  AuthenticationBloc _authenticationBloc;
-  Homebloc _homebloc;
-  String _uid;
-  MoodIcons _moodIcons;
-  Formatdates _formatdates;
+  AuthenticationBloc? _authenticationBloc;
+  Homebloc? _homebloc;
+  String? _uid;
+  MoodIcons? _moodIcons;
+  Formatdates? _formatdates;
+  LoginBloc? _loginBloc;
+
   @override
   void initState() {
     super.initState();
@@ -34,15 +36,135 @@ class _HomeState extends State<Home> {
   void didChangeDepedencies() {
     super.didChangeDependencies();
     _authenticationBloc =
-        AuthenticationBlocProvider().of(context).authenticationBloc;
-    _homebloc = Homeblocprovider().of(context).homebloc;
-    _uid = Homeblocprovider().of(context).uid;
+        AuthenticationBlocProvider.of(context).authenticationBloc;
+    AuthenticationBlocProvider.of(context).authenticationBloc;
+    _homebloc = Homeblocprovider.of(context).homebloc;
+    _uid = Homeblocprovider.of(context).uid;
   }
 
   @override
   void dispose() {
-    _homebloc.dispose();
+    _homebloc!.dispose();
     super.dispose();
+  }
+
+  void _addOrEditJournal({bool? add, Journal? journal}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => JournalEditBlocProvider(
+          journalEditBloc:
+              JournalEditBloc(add!, journal!, DbFirestoreServices()),
+          child: EditEntry(),
+        ),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+
+  Future<bool> _confirmDeleteJournal() async {
+    return await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Delete Journal'),
+            content: Text('Are you sure want to delete the Journal?'),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: Text('Cancel')),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: Text('Delete'),
+              ),
+            ],
+          );
+        });
+  }
+
+  Widget _buildListViewSeparated(AsyncSnapshot snapshot) {
+    return ListView.separated(
+      itemCount: snapshot.data.length,
+      itemBuilder: (BuildContext context, int index) {
+        String? _titleDate = _formatdates!
+            .dateFormatShortMonthDayYear(snapshot.data[index].date);
+        String? _subtitle =
+            snapshot.data[index].mood + "\n" + snapshot.data[index].note;
+        return Dismissible(
+            key: Key(snapshot.data[index].documentId),
+            background: Container(
+              color: Colors.red,
+              alignment: Alignment.centerLeft,
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            ),
+            secondaryBackground: Container(
+              color: Colors.red,
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            ),
+            child: ListTile(
+              leading: Column(
+                children: <Widget>[
+                  Text(
+                    _formatdates!
+                        .dateFormatDayNumber(snapshot.data[index].date)!,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32.0,
+                      color: Colors.lightGreen,
+                    ),
+                  ),
+                  Text(_formatdates!
+                      .dateFormatShortDayName(snapshot.data[index].date)!),
+                ],
+              ),
+              trailing: Transform(
+                transform: Matrix4.identity()
+                  ..rotateZ(
+                      _moodIcons!.getMoodRotation(snapshot.data[index].mood)!),
+                alignment: Alignment.center,
+                child: Icon(
+                  _moodIcons!.getMoodIcon(snapshot.data[index].mood),
+                  color: _moodIcons!.getMoodColor(snapshot.data[index].mood),
+                  size: 42.00,
+                ),
+              ),
+              title: Text(
+                _titleDate!,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(_subtitle!),
+              onTap: () {
+                _addOrEditJournal(
+                  add: false,
+                  journal: snapshot.data[index],
+                );
+              },
+            ),
+            confirmDismiss: (direction) async {
+              bool confirmDelete = await _confirmDeleteJournal();
+              if (confirmDelete) {
+                _homebloc!.deleteJournal.add(snapshot.data[index]);
+              }
+            });
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return Divider(
+          color: Colors.grey,
+        );
+      },
+    );
   }
 
   @override
@@ -72,7 +194,7 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
             onPressed: () {
-              //Add signmout method
+              _authenticationBloc!.logOutUser.add(true); //Add signmout method
             },
             icon: Icon(
               Icons.exit_to_app,
@@ -81,10 +203,24 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: SafeArea(
-          child: Container(
-        child: Login(),
-      )),
+      body: StreamBuilder(
+        stream: _homebloc!.listJournal,
+        builder: ((BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasData) {
+            return _buildListViewSeparated(snapshot);
+          } else {
+            return Center(
+              child: Container(
+                child: Text("Add jounrals:"),
+              ),
+            );
+          }
+        }),
+      ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0.00,
         child: Container(
@@ -100,7 +236,9 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          _addOrEditJournal(add: true, journal: Journal(uid: _uid));
+        },
         tooltip: 'Add Journal Entry',
         backgroundColor: Colors.lightGreen.shade300,
         child: Icon(Icons.add),
