@@ -24,8 +24,10 @@ class Homebloc {
   }
 
   void _startListner() {
-    authenticationApi.getFirebaseAuth().currentUser().then((user) {
+    var user = authenticationApi.getFirebaseAuth().currentUser;
+    if (user != null) {
       dbApi.getJournalList(user.uid).listen((journalDocs) {
+        print("Received journal data: ${journalDocs.length} entries");
         _addListJournal.add(journalDocs);
       });
       _journalDeleteController.stream.listen((journalList) {
@@ -33,6 +35,8 @@ class Homebloc {
           dbApi.deleteJournal(journal);
         }
       });
-    });
+    } else {
+      print("No user is currently signed in.");
+    }
   }
 }

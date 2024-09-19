@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:journal/pages/home.dart';
 import 'package:journal/blocs/authentication_bloc.dart';
 import 'package:journal/blocs/authentication_bloc_provider.dart';
@@ -8,7 +10,11 @@ import 'package:journal/services/authentication.dart';
 import 'package:journal/services/db_firestore.dart';
 import 'package:journal/pages/login.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -30,7 +36,7 @@ class MyApp extends StatelessWidget {
               );
             } else if (snapshot.hasData) {
               return Homeblocprovider(
-                  child: _buildMaterialApp(homePage),
+                  child: _buildMaterialApp(Home()),
                   homebloc:
                       Homebloc(_authenticationService, DbFirestoreServices()),
                   uid: snapshot.data);

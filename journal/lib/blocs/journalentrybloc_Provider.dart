@@ -3,10 +3,11 @@ import 'package:journal/blocs/journalentry_bloc.dart';
 
 class JournalentryblocProvider extends InheritedWidget {
   final JournalEditBloc journalEditBloc;
-  const JournalentryblocProvider(Key? key, Widget child, this.journalEditBloc)
+  const JournalentryblocProvider(
+      {Key? key, required Widget child, required this.journalEditBloc})
       : super(key: key, child: child);
 
-  JournalentryblocProvider of(BuildContext context) {
+  static JournalentryblocProvider of(BuildContext context) {
     return (context
             .getElementForInheritedWidgetOfExactType<JournalentryblocProvider>()
         as JournalentryblocProvider);

@@ -17,5 +17,5 @@ class Homeblocprovider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(Homeblocprovider oldWidget) =>
-      homebloc != oldWidget.homebloc;
+      homebloc != oldWidget.homebloc || uid != oldWidget.uid;
 }

@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:journal/services/authentication_api.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class AuthenticationBloc {
   final AuthenticationApi _authenticationApi;
+
   final StreamController<String> _authenticationController =
       StreamController<String>();
   Sink<String> get addUser => _authenticationController.sink;
@@ -13,26 +15,36 @@ class AuthenticationBloc {
   Sink<String> get logOutUser => _logOutController.sink;
   Stream<String> get listLogOutUser => _logOutController.stream;
 
-  AuthenticationBloc(this._authenticationApi) {
-    onAuthChange();
-  }
-  void dispose() {
-    _authenticationController.close();
-    _logOutController.close();
-  }
+  late final StreamSubscription _authStateSubscription;
+  late final StreamSubscription _logOutSubscription;
 
-  void onAuthChange() {
-    _authenticationApi.getFirebaseAuth().onAuthChange.listen((User) {
-      final String uid = User != null ? User.uid : null;
-      addUser.add(uid);
+  // Constructor
+  AuthenticationBloc(this._authenticationApi) {
+    _authStateSubscription = _authenticationApi
+        .getFirebaseAuth()
+        .authStateChanges()
+        .listen((firebase_auth.User? user) {
+      final String? uid = user?.uid;
+      addUser.add(uid!);
     });
-    _logOutController.stream.listen((logout) {
-      if (logout == true) {
+
+    // Listen for logout events and trigger the sign out
+    _logOutSubscription = _logOutController.stream.listen((shouldLogOut) {
+      if (shouldLogOut == true) {
         _signOut();
       }
     });
   }
 
+  // Dispose method to close the controllers and cancel subscriptions
+  void dispose() {
+    _authenticationController.close();
+    _logOutController.close();
+    _authStateSubscription.cancel();
+    _logOutSubscription.cancel();
+  }
+
+  // Sign-out function
   void _signOut() {
     _authenticationApi.signOut();
   }

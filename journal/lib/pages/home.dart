@@ -12,6 +12,7 @@ import 'package:journal/classes/formatdates.dart';
 import 'package:journal/model/journal.dart';
 import 'package:journal/services/authentication.dart';
 import 'package:journal/services/db_firestore.dart';
+import 'package:journal/pages/edit_entry.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -37,7 +38,6 @@ class _HomeState extends State<Home> {
     super.didChangeDependencies();
     _authenticationBloc =
         AuthenticationBlocProvider.of(context).authenticationBloc;
-    AuthenticationBlocProvider.of(context).authenticationBloc;
     _homebloc = Homeblocprovider.of(context).homebloc;
     _uid = Homeblocprovider.of(context).uid;
   }
@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => JournalEditBlocProvider(
+        builder: (BuildContext context) => JournalentryblocProvider(
           journalEditBloc:
               JournalEditBloc(add!, journal!, DbFirestoreServices()),
           child: EditEntry(),
@@ -194,7 +194,8 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
             onPressed: () {
-              _authenticationBloc!.logOutUser.add(true); //Add signmout method
+              _authenticationBloc!.logOutUser
+                  .add(true.toString()); //Add signmout method
             },
             icon: Icon(
               Icons.exit_to_app,
