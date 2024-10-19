@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 
 class SilverListWidget extends StatelessWidget {
-  const SilverListWidget({Key? key}) : super(key: key);
+  const SilverListWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return SliverList(
@@ -13,13 +13,13 @@ class SilverListWidget extends StatelessWidget {
           (int index) {
             return ListTile(
               leading: CircleAvatar(
-                child: Text('Index ${index + 1}'),
                 backgroundColor: Colors.lightGreen,
                 foregroundColor: Colors.white,
+                child: Text('Index ${index + 1}'),
               ),
               title: Text('Row ${index + 1}'),
               subtitle: Text('Try this one ${index + 1}'),
-              trailing: Icon(Icons.star_border),
+              trailing: const Icon(Icons.star_border),
             );
           },
         ),

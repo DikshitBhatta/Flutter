@@ -4,6 +4,8 @@ import 'package:listandviews/widgets/rowwidget.dart';
 import 'package:listandviews/widgets/rowwithcard.dart';
 
 class Listviewtile extends StatefulWidget {
+  const Listviewtile({super.key});
+
   @override
   _ListviewtileState createState() => _ListviewtileState();
 }

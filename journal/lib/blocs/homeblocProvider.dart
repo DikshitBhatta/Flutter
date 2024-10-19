@@ -5,11 +5,10 @@ class Homeblocprovider extends InheritedWidget {
   final Homebloc homebloc;
   final String uid;
   const Homeblocprovider(
-      {Key? key,
-      required Widget child,
+      {super.key,
+      required super.child,
       required this.homebloc,
-      required this.uid})
-      : super(key: key, child: child);
+      required this.uid});
   static Homeblocprovider of(BuildContext context) {
     return (context.getInheritedWidgetOfExactType<Homeblocprovider>()
         as Homeblocprovider);

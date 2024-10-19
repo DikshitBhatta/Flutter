@@ -4,39 +4,43 @@ import 'db_firestoreapi.dart';
 
 class DbFirestoreServices implements DbApi {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  String _collectionJournal = 'jounals';
+  final String _collectionJournal = 'jounals';
 
+  @override
   Stream<List<Journal>> getJournalList(String uid) {
     return firestore
         .collection(_collectionJournal)
         .where('uid', isEqualTo: uid)
         .snapshots()
         .map((QuerySnapshot snapshot) {
-      List<Journal> _journaldocs =
+      List<Journal> journaldocs =
           snapshot.docs.map((doc) => Journal.fromDoc(doc)).toList();
-      _journaldocs.sort((comp1, comp2) => (comp2.date!.compareTo(comp1.date!)));
-      return _journaldocs;
+      journaldocs.sort((comp1, comp2) => (comp2.date!.compareTo(comp1.date!)));
+      return journaldocs;
     });
   }
 
+  @override
   Future<Journal> getJournal(String documentId) async {
     DocumentSnapshot
-        _documentSnapshot = //represent snapshot of documebt in database
+        documentSnapshot = //represent snapshot of documebt in database
         await firestore.collection(_collectionJournal).doc(documentId).get();
-    return Journal.fromDoc(_documentSnapshot);
+    return Journal.fromDoc(documentSnapshot);
   }
 
+  @override
   Future<bool> addJournal(Journal journal) async {
-    DocumentReference _documentRefrence =
+    DocumentReference documentRefrence =
         await firestore.collection(_collectionJournal).add({
       'date': journal.date,
       'mood': journal.mood,
       'note': journal.note,
       'uid': journal.uid
     });
-    return _documentRefrence.id != null;
+    return documentRefrence.id != null;
   }
 
+  @override
   void updateJournal(Journal journal) async {
     await firestore
         .collection(_collectionJournal)
@@ -48,12 +52,13 @@ class DbFirestoreServices implements DbApi {
     }).catchError((error) => print('ErrorUpdating $error'));
   }
 
+  @override
   void updateJournalWithTransaction(Journal journal) async {
     await firestore.runTransaction((Transaction) async {
-      DocumentReference _documentRefrence =
+      DocumentReference documentRefrence =
           firestore.collection(_collectionJournal).doc(journal.documentId);
-      DocumentSnapshot docSnapshot = await Transaction.get(_documentRefrence);
-      Transaction.update(_documentRefrence, {
+      DocumentSnapshot docSnapshot = await Transaction.get(documentRefrence);
+      Transaction.update(documentRefrence, {
         'date': journal.date,
         'mood': journal.mood,
         'note': journal.note,
@@ -61,6 +66,7 @@ class DbFirestoreServices implements DbApi {
     });
   }
 
+  @override
   void deleteJournal(Journal journal) async {
     firestore
         .collection(_collectionJournal)

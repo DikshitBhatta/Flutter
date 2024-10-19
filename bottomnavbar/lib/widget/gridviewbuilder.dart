@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:bottomnavbar/methods/gridicon.dart';
 
 class GridviewBuildWidget extends StatelessWidget {
-  const GridviewBuildWidget({Key? key}) : super(key: key);
+  const GridviewBuildWidget({super.key});
   @override
   Widget build(BuildContext context) {
-    List<IconData> _iconList = GridIcons().getIconList();
+    List<IconData> iconList = GridIcons().getIconList();
     return Container(
       child: GridView.builder(
         itemCount: 20,
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 150.00),
         itemBuilder: (BuildContext context, int index) {
           print('Index $index');
@@ -18,11 +18,11 @@ class GridviewBuildWidget extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Icon(
-                    _iconList[index],
+                    iconList[index],
                     color: Colors.blue,
                     size: 40.00,
                   ),
-                  Divider(),
+                  const Divider(),
                   Text('Index $index'),
                 ],
               ),

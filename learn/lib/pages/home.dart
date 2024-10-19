@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -13,7 +15,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('HOME',
+        title: const Text('HOME',
             style: TextStyle(
                 color: Colors.blue,
                 fontSize: 40,
@@ -26,11 +28,11 @@ class _HomeState extends State<Home> {
                 key: _formStateKey,
                 autovalidateMode: AutovalidateMode.always,
                 child: Padding(
-                  padding: EdgeInsets.all(16.00),
+                  padding: const EdgeInsets.all(16.00),
                   child: Column(
                     children: <Widget>[
                       TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Espresso',
                           labelText: 'Items',
                         ),
@@ -38,7 +40,7 @@ class _HomeState extends State<Home> {
                         onSaved: (value) => _order.item = value,
                       ),
                       TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Quantity',
                           hintText: '0-100',
                         ),
@@ -46,15 +48,15 @@ class _HomeState extends State<Home> {
                         onSaved: (value) =>
                             _order.quantity = int.tryParse(value!),
                       ),
-                      Divider(
+                      const Divider(
                         height: 32.00,
                       ),
                       ElevatedButton(
                         onPressed: () => _submitorder(),
-                        child: Text('Save'),
-                        style: ButtonStyle(
+                        style: const ButtonStyle(
                             backgroundColor:
                                 WidgetStatePropertyAll(Colors.lightGreen)),
+                        child: Text('Save'),
                       ),
                     ],
                   ),
@@ -70,8 +72,8 @@ class _HomeState extends State<Home> {
   }
 
   String? _validateItemCount(String value) {
-    int? _valueAsInt = value.isEmpty ? 0 : int.tryParse(value);
-    return _valueAsInt == 0 ? 'At least One Item is required' : null;
+    int? valueAsInt = value.isEmpty ? 0 : int.tryParse(value);
+    return valueAsInt == 0 ? 'At least One Item is required' : null;
   }
 
   void _submitorder() {

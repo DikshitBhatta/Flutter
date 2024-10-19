@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -10,22 +12,22 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'WidgetTree',
           style: TextStyle(color: Colors.red),
         ),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(16.00),
             child: Column(
               children: <Widget>[
-                const OrientationLayoutContiner(),
+                OrientationLayoutContiner(),
                 Divider(),
-                const GridViewWidget(),
+                GridViewWidget(),
                 Divider(),
-                const Orientationbuilderlayout(),
+                Orientationbuilderlayout(),
               ],
             ),
           ),
@@ -36,7 +38,7 @@ class _HomeState extends State<Home> {
 }
 
 class Orientationbuilderlayout extends StatelessWidget {
-  const Orientationbuilderlayout({Key? key}) : super(key: key);
+  const Orientationbuilderlayout({super.key});
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(
@@ -47,51 +49,51 @@ class Orientationbuilderlayout extends StatelessWidget {
               color: Colors.yellow,
               height: 100.00,
               width: 100.00,
-              child: Text("Portrait"),
+              child: const Text("Portrait"),
             )
           : Container(
               alignment: Alignment.center,
               color: Colors.green,
               height: 100.00,
               width: 200.00,
-              child: Text('Landscape'),
+              child: const Text('Landscape'),
             );
     });
   }
 }
 
 class OrientationLayoutContiner extends StatelessWidget {
-  const OrientationLayoutContiner({Key? key}) : super(key: key);
+  const OrientationLayoutContiner({super.key});
   @override
   Widget build(BuildContext context) {
-    Orientation _orientation = MediaQuery.of(context).orientation;
-    return _orientation == Orientation.portrait
+    Orientation orientation = MediaQuery.of(context).orientation;
+    return orientation == Orientation.portrait
         ? Container(
             alignment: Alignment.center,
             color: Colors.yellow,
             height: 100.00,
             width: 100.00,
-            child: Text('Portrait'),
+            child: const Text('Portrait'),
           )
         : Container(
             alignment: Alignment.center,
             color: Colors.green,
             height: 100.00,
             width: 200.00,
-            child: Text('Landscape'),
+            child: const Text('Landscape'),
           );
   }
 }
 
 class GridViewWidget extends StatelessWidget {
-  const GridViewWidget({Key? key}) : super(key: key);
+  const GridViewWidget({super.key});
   @override
   Widget build(BuildContext context) {
-    Orientation _orientation = MediaQuery.of(context).orientation;
+    Orientation orientation = MediaQuery.of(context).orientation;
     return GridView.count(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      crossAxisCount: _orientation == Orientation.portrait ? 2 : 4,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
       childAspectRatio: 5.00,
       children: List.generate(8, (int index) {
         return Text(

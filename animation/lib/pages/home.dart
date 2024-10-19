@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:animation/widgets/animated_container.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -13,7 +15,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(
+          title: const Center(
             child: Text(
               "WidthAnimation",
             ),
@@ -23,9 +25,9 @@ class _HomeState extends State<Home> {
             child: Column(
           children: <Widget>[
             AnimatedContainerWidget(),
-            Divider(),
+            const Divider(),
             AnimatedCrossfadeWidget(),
-            Divider(),
+            const Divider(),
             AnimatedOpacityWidget(),
           ],
         )));

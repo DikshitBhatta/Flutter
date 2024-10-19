@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SilverAppBarWidget extends StatelessWidget {
-  const SilverAppBarWidget({Key? key}) : super(key: key);
+  const SilverAppBarWidget({super.key});
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
+    return const SliverAppBar(
       backgroundColor: Colors.brown,
       forceElevated: true,
       expandedHeight: 250.00,

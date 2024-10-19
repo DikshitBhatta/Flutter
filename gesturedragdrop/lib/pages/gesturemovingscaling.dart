@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Widgetmovingscaling extends StatefulWidget {
-  const Widgetmovingscaling({Key? key}) : super(key: key);
+  const Widgetmovingscaling({super.key});
   @override
   _WidgetmovingscalingState createState() => _WidgetmovingscalingState();
 }
@@ -15,14 +15,14 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
   double _currentScale = 1.0;
 
   Widget _buildBody(BuildContext context) {
-    void _onScaleStart(ScaleStartDetails details) {
+    void onScaleStart(ScaleStartDetails details) {
       print('ScaleStartDetails: $details');
       _startLastOffset = details.focalPoint;
       _lastOffset = _currentOffset;
       _Lastscale = _currentScale;
     }
 
-    void _onScaleUpdate(ScaleUpdateDetails details) {
+    void onScaleUpdate(ScaleUpdateDetails details) {
       print('ScaleUpdatedetails: $details - scale: ${details.scale}');
 
       setState(() {
@@ -55,7 +55,7 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
       });
     }
 
-    void _resettoDefaultValues() {
+    void resettoDefaultValues() {
       _startLastOffset = Offset.zero;
       _lastOffset = Offset.zero;
       _currentOffset = Offset.zero;
@@ -63,12 +63,12 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
       _currentScale = 1.0;
     }
 
-    void _onDoubleTap() {
+    void onDoubleTap() {
       print('onDoubleTap');
       double currentScale = _Lastscale * 2.0;
       if (currentScale > 16.0) {
         currentScale = 1.0;
-        _resettoDefaultValues();
+        resettoDefaultValues();
       }
       _Lastscale = currentScale;
       setState(() {
@@ -76,14 +76,14 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
       });
     }
 
-    void _onLongPress() {
+    void onLongPress() {
       print('onLongPress');
       setState(() {
-        _resettoDefaultValues();
+        resettoDefaultValues();
       });
     }
 
-    void _setscalebig() {
+    void setscalebig() {
       double bscale = _Lastscale * 2;
       _Lastscale = bscale;
       setState(() {
@@ -92,11 +92,11 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
       if (bscale > 16.0) {
         _currentScale:
         1.0;
-        _resettoDefaultValues();
+        resettoDefaultValues();
       }
     }
 
-    void _setscalesmall() {
+    void setscalesmall() {
       double cScale = _Lastscale / 2;
       _Lastscale = cScale;
 
@@ -105,11 +105,11 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
       });
       if (cScale < 0.1) {
         _currentScale = 1.0;
-        _resettoDefaultValues();
+        resettoDefaultValues();
       }
     }
 
-    Positioned _positionedInkwellAndInkRespose(BuildContext context) {
+    Positioned positionedInkwellAndInkRespose(BuildContext context) {
       return Positioned(
           top: 50.00,
           width: MediaQuery.of(context).size.width,
@@ -120,22 +120,11 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 InkWell(
-                  child: Container(
-                    height: 48.00,
-                    width: 128.00,
-                    color: Colors.black12,
-                    child: Icon(
-                      Icons.touch_app,
-                      size: 32.00,
-                    ),
-                  ),
                   splashColor: Colors.lightGreenAccent,
                   highlightColor: Colors.lightBlueAccent,
-                  onTap: _setscalesmall,
-                  onDoubleTap: _setscalebig,
-                  onLongPress: _onLongPress,
-                ),
-                InkResponse(
+                  onTap: setscalesmall,
+                  onDoubleTap: setscalebig,
+                  onLongPress: onLongPress,
                   child: Container(
                     height: 48.00,
                     width: 128.00,
@@ -145,11 +134,22 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
                       size: 32.00,
                     ),
                   ),
+                ),
+                InkResponse(
                   splashColor: Colors.pinkAccent,
                   highlightColor: Colors.redAccent,
-                  onTap: _setscalesmall,
-                  onDoubleTap: _setscalebig,
-                  onLongPress: _onLongPress,
+                  onTap: setscalesmall,
+                  onDoubleTap: setscalebig,
+                  onLongPress: onLongPress,
+                  child: Container(
+                    height: 48.00,
+                    width: 128.00,
+                    color: Colors.black12,
+                    child: Icon(
+                      Icons.touch_app,
+                      size: 32.00,
+                    ),
+                  ),
                 )
               ],
             ),
@@ -163,15 +163,15 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
           _transformscaleandTranslate(),
           _transformMatrix4(),
           _positionedStatusBar(context),
-          _positionedInkwellAndInkRespose(
+          positionedInkwellAndInkRespose(
             context,
           )
         ],
       ),
-      onScaleStart: _onScaleStart,
-      onScaleUpdate: _onScaleUpdate,
-      onDoubleTap: _onDoubleTap,
-      onLongPress: _onLongPress,
+      onScaleStart: onScaleStart,
+      onScaleUpdate: onScaleUpdate,
+      onDoubleTap: onDoubleTap,
+      onLongPress: onLongPress,
     );
   }
 
@@ -180,7 +180,7 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
       scale: _currentScale,
       child: Transform.translate(
         offset: _currentOffset,
-        child: Image(
+        child: const Image(
           image: AssetImage("assets/images/elephant.jpeg"),
         ),
       ),
@@ -193,7 +193,7 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
         ..scale(_currentScale, _currentScale)
         ..translate(_currentOffset.dx, _currentOffset.dy),
       alignment: FractionalOffset.center,
-      child: Image(image: AssetImage("assets/images/elephant.jpeg")),
+      child: const Image(image: AssetImage("assets/images/elephant.jpeg")),
     );
   }
 
@@ -219,7 +219,7 @@ class _WidgetmovingscalingState extends State<Widgetmovingscaling> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gesturemovingandscaling'),
+        title: const Text('Gesturemovingandscaling'),
       ),
       body: _buildBody(context),
     );

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:bottomnavbar/widget/gridviewbuilder.dart';
 
 class Fire extends StatelessWidget {
+  const Fire({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
-        child: const GridviewBuildWidget(),
+        child: GridviewBuildWidget(),
       ),
     );
   }

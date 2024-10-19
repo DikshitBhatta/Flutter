@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AnimatedOpacityWidget extends StatefulWidget {
+  const AnimatedOpacityWidget({super.key});
+
   @override
   _AnimatedOpacityWidgetState createState() => _AnimatedOpacityWidgetState();
 }
@@ -19,14 +21,14 @@ class _AnimatedOpacityWidgetState extends State<AnimatedOpacityWidget> {
       children: <Widget>[
         AnimatedOpacity(
           opacity: _opacity,
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           child: Container(
             color: Colors.amber,
             height: 100.00,
             width: 100.00,
             child: TextButton(
               onPressed: () => _animatedOpacity(),
-              child: Text('Tap to fade'),
+              child: const Text('Tap to fade'),
             ),
           ),
         ),

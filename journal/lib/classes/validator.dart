@@ -5,7 +5,7 @@ class Validator {
       StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
     if (email.contains('@') && email.contains('.')) {
       sink.add(email);
-    } else if (email.length > 0) {
+    } else if (email.isNotEmpty) {
       sink.addError('Enter a valid email');
     }
   });

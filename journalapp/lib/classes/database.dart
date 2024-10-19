@@ -25,14 +25,14 @@ class DatabaseFileRoutines {
       String contents = await file.readAsString();
       return contents;
     } catch (e) {
-      print("error read journal: ${e}");
+      print("error read journal: $e");
       return " ";
     }
   }
 
   Future<File> writeJournals(String json) async {
     final file = await _localFile;
-    return file.writeAsString('$json');
+    return file.writeAsString(json);
   }
 }
 

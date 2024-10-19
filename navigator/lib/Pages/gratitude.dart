@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Gratitude extends StatefulWidget {
   final int radioGroupvalue;
-  Gratitude({Key? Key, required this.radioGroupvalue}) : super(key: Key);
+  const Gratitude({Key? Key, required this.radioGroupvalue}) : super(key: Key);
   @override
   _gratitudeState createState() => _gratitudeState();
 }
@@ -29,22 +29,23 @@ class _gratitudeState extends State<Gratitude> {
     _radioGroupValue = widget.radioGroupvalue;
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gratitude'),
+        title: const Text('Gratitude'),
         actions: <Widget>[
           IconButton(
             onPressed: () {
               Navigator.pop(context, _selectedGratitude);
             },
-            icon: Icon(Icons.check),
+            icon: const Icon(Icons.check),
           )
         ],
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(16.00),
+          padding: const EdgeInsets.all(16.00),
           child: Row(
             children: <Widget>[
               Radio(
@@ -52,18 +53,18 @@ class _gratitudeState extends State<Gratitude> {
                 groupValue: _radioGroupValue,
                 onChanged: (index) => _radioOnChanged(index!),
               ),
-              Text('Family'),
+              const Text('Family'),
               Radio(
                 value: 1,
                 groupValue: _radioGroupValue,
                 onChanged: (index) => _radioOnChanged(index!),
               ),
-              Text('Friends'),
+              const Text('Friends'),
               Radio(
                   value: 2,
                   groupValue: _radioGroupValue,
                   onChanged: (index) => _radioOnChanged(index!)),
-              Text('Coffee'),
+              const Text('Coffee'),
             ],
           ),
         ),

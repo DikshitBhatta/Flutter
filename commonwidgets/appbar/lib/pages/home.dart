@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -12,7 +14,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         //backgroundColor: Colors.lightGreen,
         leading: PopupMenuButton<ToDoMenuItem>(
-          icon: Icon(Icons.view_list),
+          icon: const Icon(Icons.view_list),
           onSelected: ((valueSelected) {
             print('valueSelected: ${valueSelected.title}');
           }),
@@ -23,7 +25,7 @@ class _HomeState extends State<Home> {
                 child: Row(
                   children: <Widget>[
                     Icon(todoMenuItem.icon?.icon),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.all(8.0),
                     ),
                     Text(todoMenuItem.title!),
@@ -33,22 +35,22 @@ class _HomeState extends State<Home> {
             }).toList();
           },
         ),
-        title: Text(
+        title: const Text(
           'Home',
           textAlign: TextAlign.start,
         ),
         actions: <Widget>[
-          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
         ],
-        flexibleSpace: SafeArea(
+        flexibleSpace: const SafeArea(
           child: Icon(
             Icons.camera,
             size: 60.00,
             color: Colors.black,
           ),
         ),
-        bottom: PopupMenuButtonWidget(),
+        bottom: const PopupMenuButtonWidget(),
         /*PreferredSize(
           preferredSize: Size.fromHeight(100.00),
           child: Container(
@@ -62,42 +64,42 @@ class _HomeState extends State<Home> {
         ),*/
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.00),
+        padding: const EdgeInsets.all(16.00),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 const Containerwithboxdecoration(),
-                Divider(),
+                const Divider(),
                 const columnexample(),
-                Divider(),
+                const Divider(),
                 const rowexample(),
-                Divider(),
+                const Divider(),
                 const columnrownestedexample(),
                 TextButton(
                   onPressed: () {},
-                  child: Icon(Icons.flag),
-                  style: ButtonStyle(
+                  style: const ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.lightBlue),
                   ),
+                  child: Icon(Icons.flag),
                 ),
-                Divider(),
+                const Divider(),
                 ElevatedButton(
                   onPressed: () {},
-                  child: Icon(Icons.save),
                   style: ButtonStyle(
                       backgroundColor:
                           WidgetStatePropertyAll(Colors.lightGreen.shade200)),
+                  child: Icon(Icons.save),
                 ),
-                Divider(),
+                const Divider(),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.flight),
+                  icon: const Icon(Icons.flight),
                   iconSize: 42.00,
                   color: Colors.pink,
                   tooltip: 'Flight',
                 ),
-                Divider(),
+                const Divider(),
                 Container(
                     color: Colors.amber,
                     child: OverflowBar(
@@ -105,13 +107,13 @@ class _HomeState extends State<Home> {
                       children: <Widget>[
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.map),
+                          icon: const Icon(Icons.map),
                         ),
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.airport_shuttle),
+                          icon: const Icon(Icons.airport_shuttle),
                         ),
-                        IconButton(onPressed: () {}, icon: Icon(Icons.brush)),
+                        IconButton(onPressed: () {}, icon: const Icon(Icons.brush)),
                       ],
                     ))
               ],
@@ -122,13 +124,13 @@ class _HomeState extends State<Home> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.play_arrow),
         //label: Text('Play'),
         backgroundColor: Colors.lightGreen.shade100,
+        child: Icon(Icons.play_arrow),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.lightGreen.shade100,
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Icon(Icons.pause),
@@ -143,7 +145,7 @@ class _HomeState extends State<Home> {
 }
 
 class Containerwithboxdecoration extends StatelessWidget {
-  const Containerwithboxdecoration({Key? key}) : super(key: key);
+  const Containerwithboxdecoration({super.key});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -151,7 +153,7 @@ class Containerwithboxdecoration extends StatelessWidget {
         Container(
           height: 100.00,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(100.00),
               bottomRight: Radius.circular(10.00),
             ),
@@ -163,7 +165,7 @@ class Containerwithboxdecoration extends StatelessWidget {
                   Colors.lightGreen.shade500,
                   Colors.lightBlue.shade800,
                 ]),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.red,
                 blurRadius: 10.00,
@@ -173,7 +175,7 @@ class Containerwithboxdecoration extends StatelessWidget {
           ),
           child: Center(
             child: RichText(
-              text: TextSpan(
+              text: const TextSpan(
                 text: 'Flutter World',
                 style: TextStyle(
                     fontSize: 20.00,
@@ -206,10 +208,10 @@ class Containerwithboxdecoration extends StatelessWidget {
 }
 
 class columnexample extends StatelessWidget {
-  const columnexample({Key? key}) : super(key: key);
+  const columnexample({super.key});
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
@@ -225,10 +227,10 @@ class columnexample extends StatelessWidget {
 }
 
 class rowexample extends StatelessWidget {
-  const rowexample({Key? key}) : super(key: key);
+  const rowexample({super.key});
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
@@ -244,10 +246,10 @@ class rowexample extends StatelessWidget {
 }
 
 class columnrownestedexample extends StatelessWidget {
-  const columnrownestedexample({Key? key}) : super(key: key);
+  const columnrownestedexample({super.key});
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
@@ -276,15 +278,15 @@ class ToDoMenuItem {
 }
 
 List<ToDoMenuItem> foodMenuList = [
-  ToDoMenuItem(title: 'Fast food', icon: Icon(Icons.fastfood)),
-  ToDoMenuItem(title: 'Remind me', icon: Icon(Icons.add_alarm)),
-  ToDoMenuItem(title: 'Flight', icon: Icon(Icons.flight)),
-  ToDoMenuItem(title: 'Music', icon: Icon(Icons.audiotrack)),
+  ToDoMenuItem(title: 'Fast food', icon: const Icon(Icons.fastfood)),
+  ToDoMenuItem(title: 'Remind me', icon: const Icon(Icons.add_alarm)),
+  ToDoMenuItem(title: 'Flight', icon: const Icon(Icons.flight)),
+  ToDoMenuItem(title: 'Music', icon: const Icon(Icons.audiotrack)),
 ];
 
 class PopupMenuButtonWidget extends StatelessWidget
     implements PreferredSizeWidget {
-  const PopupMenuButtonWidget({Key? key}) : super(key: key);
+  const PopupMenuButtonWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -293,7 +295,7 @@ class PopupMenuButtonWidget extends StatelessWidget
       width: double.infinity,
       child: Center(
         child: PopupMenuButton<ToDoMenuItem>(
-          icon: Icon(Icons.view_list),
+          icon: const Icon(Icons.view_list),
           onSelected: ((valueSelected) {
             print('valueSelected: ${valueSelected.title}');
           }),
@@ -304,7 +306,7 @@ class PopupMenuButtonWidget extends StatelessWidget
                 child: Row(
                   children: <Widget>[
                     Icon(todoMenuItem.icon!.icon),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.all(8.0),
                     ),
                     Text(todoMenuItem.title!),
@@ -319,5 +321,5 @@ class PopupMenuButtonWidget extends StatelessWidget
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(50.0);
+  Size get preferredSize => const Size.fromHeight(50.0);
 }

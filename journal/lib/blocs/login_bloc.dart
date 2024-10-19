@@ -83,42 +83,44 @@ class LoginBloc extends Validator {
   }
 
   Future<String> _logIn() async {
-    String _result = '';
+    String result = '';
     if (_emailValid == true && _passwordValid == true) {
       await authenticationApi
           .signInWithEmailAndPassword(email: _email!, password: _password!)
           .then((User) {
-        _result = 'success';
+        result = 'success';
       }).catchError((error) {
         print("Login Error $error");
-        _result = 'error';
+        result = 'error';
       });
-      return _result;
+      return result;
     } else {
       return "Email and password are not valid";
     }
   }
 
+  Future<String> createAccount() async {
+    String result = await _createAccount();
+    return result;
+  }
+
   Future<String> _createAccount() async {
-    String _result = '';
+    String result = '';
     if (_emailValid == true && _passwordValid == true) {
-      await authenticationApi
-          .createUserWithEmailAndPassword(email: _email!, password: _password!)
-          .then((User) {
-        print("Created User $User");
-        authenticationApi
-            .signInWithEmailAndPassword(email: _email!, password: _password!)
-            .then((User) {
-          print("Logged in $User");
-        }).catchError((error) {
-          print('LOgin error $error');
-        }).catchError((error) {
-          print('Create Account error $error');
-        });
-      });
-      return _result;
+      try {
+        String uid = await authenticationApi.createUserWithEmailAndPassword(
+            email: _email!, password: _password!);
+        print("Created User UID: $uid");
+        await authenticationApi.signInWithEmailAndPassword(
+            email: _email!, password: _password!);
+        result = 'success';
+      } catch (error) {
+        print('Create Account error $error');
+        result = 'error';
+      }
     } else {
-      return 'Error creating User';
+      result = 'Email and password are not valid';
     }
+    return result;
   }
 }

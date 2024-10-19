@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:journal/services/authentication_api.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
@@ -24,8 +23,12 @@ class AuthenticationBloc {
         .getFirebaseAuth()
         .authStateChanges()
         .listen((firebase_auth.User? user) {
-      final String? uid = user?.uid;
-      addUser.add(uid!);
+      if (user != null) {
+        final String uid = user.uid;
+        addUser.add(uid);
+      } else {
+        addUser.add('signed_out');
+      }
     });
 
     // Listen for logout events and trigger the sign out

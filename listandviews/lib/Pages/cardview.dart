@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CardView extends StatefulWidget {
+  const CardView({super.key});
+
   @override
   _CardviewState createState() => _CardviewState();
 }
@@ -8,7 +10,7 @@ class CardView extends StatefulWidget {
 class _CardviewState extends State<CardView> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Column(
         children: <Widget>[
           Card(

@@ -4,6 +4,8 @@ import 'package:journalapp/pages/home.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,8 +13,8 @@ class MyApp extends StatelessWidget {
       title: 'customscrollexample',
       theme: ThemeData(
           primarySwatch: Colors.lightGreen,
-          appBarTheme: AppBarTheme(color: Colors.lightGreen),
-          bottomAppBarTheme: BottomAppBarTheme(color: Colors.lightGreen)),
+          appBarTheme: const AppBarTheme(color: Colors.lightGreen),
+          bottomAppBarTheme: const BottomAppBarTheme(color: Colors.lightGreen)),
       home: Home(),
     );
   }

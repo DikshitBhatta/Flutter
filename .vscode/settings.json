@@ -1,3 +1,4 @@
 {
-  "cmake.sourceDirectory": "/Users/dikshitbhatta/Git/flutter/animation/linux"
+  "cmake.sourceDirectory": "/Users/dikshitbhatta/Git/flutter/animation/linux",
+  "java.compile.nullAnalysis.mode": "automatic"
 }

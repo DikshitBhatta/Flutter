@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SilverGridWidget extends StatelessWidget {
-  const SilverGridWidget({Key? key}) : super(key: key);
+  const SilverGridWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return SliverSafeArea(
@@ -12,18 +12,18 @@ class SilverGridWidget extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(
+                    const Icon(
                       Icons.child_friendly,
                       size: 48,
                       color: Colors.amber,
                     ),
-                    Divider(),
+                    const Divider(),
                     Text("Grid ${index + 1}"),
                   ],
                 ),
               );
             }, childCount: 12),
             gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3)));
+                const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3)));
   }
 }

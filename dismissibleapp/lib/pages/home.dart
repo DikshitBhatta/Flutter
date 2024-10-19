@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:dismissibleapp/classes/trips.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  List<Trips> _trips = [];
+  final List<Trips> _trips = [];
   @override
   void initState() {
     super.initState();
@@ -29,15 +31,15 @@ class _HomeState extends State<Home> {
     return ListTile(
       title: Text('${_trips[index].tripName}'),
       subtitle: Text('${_trips[index].tripLocation}'),
-      leading: Icon(Icons.flight),
-      trailing: Icon(Icons.fastfood),
+      leading: const Icon(Icons.flight),
+      trailing: const Icon(Icons.fastfood),
     );
   }
 
   Container _buildCompleteTrip() {
     return Container(
       color: Colors.green,
-      child: Padding(
+      child: const Padding(
         padding: EdgeInsets.all(16.00),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -55,7 +57,7 @@ class _HomeState extends State<Home> {
   Container _buildRemoveTrip() {
     return Container(
       color: Colors.red,
-      child: Padding(
+      child: const Padding(
         padding: EdgeInsets.all(16.00),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -86,7 +88,6 @@ class _HomeState extends State<Home> {
         itemBuilder: (BuildContext context, int index) {
           return Dismissible(
             key: Key(_trips[index].Id!),
-            child: _buildListTile(index),
             background: _buildCompleteTrip(),
             secondaryBackground: _buildRemoveTrip(),
             onDismissed: (DismissDirection direction) {
@@ -97,6 +98,7 @@ class _HomeState extends State<Home> {
                 _trips.removeAt(index);
               });
             },
+            child: _buildListTile(index),
           );
         },
       ),

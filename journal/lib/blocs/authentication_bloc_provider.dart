@@ -4,10 +4,10 @@ import 'authentication_bloc.dart';
 class AuthenticationBlocProvider extends InheritedWidget {
   final AuthenticationBloc authenticationBloc;
   AuthenticationBlocProvider({
-    Key? key,
+    super.key,
     Widget? child,
     required this.authenticationBloc,
-  }) : super(key: key, child: child!);
+  }) : super(child: child!);
 
   static AuthenticationBlocProvider of(BuildContext context) {
     return (context.getInheritedWidgetOfExactType<AuthenticationBlocProvider>()

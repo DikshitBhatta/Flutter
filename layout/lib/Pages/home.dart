@@ -5,6 +5,8 @@ import 'package:layout/widgets/widget_header.dart';
 import 'package:layout/widgets/widget_weather.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -14,27 +16,27 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
-        title: Text('Layout'),
+        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        title: const Text('Layout'),
         actions: <Widget>[
           Padding(
-              padding: EdgeInsets.all(16.00),
+              padding: const EdgeInsets.all(16.00),
               child: IconButton(
-                  onPressed: () {}, icon: Icon(Icons.cloud_done_outlined)))
+                  onPressed: () {}, icon: const Icon(Icons.cloud_done_outlined)))
         ],
       ),
       body: Container(
-        child: SingleChildScrollView(
+        child: const SingleChildScrollView(
           padding: EdgeInsets.all(16.00),
           child: Column(
             children: <Widget>[
-              const WidgetHeader(),
+              WidgetHeader(),
               Divider(),
-              const WidgetWeather(),
+              WidgetWeather(),
               Divider(),
-              const Giftwrapper(),
+              Giftwrapper(),
               Divider(),
-              const Footer(),
+              Footer(),
             ],
           ),
         ),

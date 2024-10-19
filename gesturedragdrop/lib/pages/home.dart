@@ -3,6 +3,9 @@ import 'package:gesturedragdrop/methods/buildgesturedetctor.dart';
 import 'package:gesturedragdrop/pages/gesturemovingscaling.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
   _HomeState createState() => _HomeState();
 }
 
@@ -30,10 +33,10 @@ class _HomeState extends State<Home> {
       child: Container(
         color: Colors.lightGreen.shade100,
         width: double.infinity,
-        padding: EdgeInsets.all(24.00),
+        padding: const EdgeInsets.all(24.00),
         child: Column(
           children: <Widget>[
-            Icon(
+            const Icon(
               Icons.access_alarm,
               size: 98.00,
             ),
@@ -46,6 +49,17 @@ class _HomeState extends State<Home> {
 
   Draggable<int> _buildDraggable() {
     return Draggable(
+      childWhenDragging: const Icon(
+        Icons.palette,
+        color: Colors.grey,
+        size: 48.00,
+      ),
+      feedback: const Icon(
+        Icons.brush,
+        color: Colors.orange,
+        size: 80.00,
+      ),
+      data: Colors.deepOrange.value,
       child: Column(
         children: <Widget>[
           Icon(
@@ -56,17 +70,6 @@ class _HomeState extends State<Home> {
           Text('Drag me below to change Color'),
         ],
       ),
-      childWhenDragging: Icon(
-        Icons.palette,
-        color: Colors.grey,
-        size: 48.00,
-      ),
-      feedback: Icon(
-        Icons.brush,
-        color: Colors.orange,
-        size: 80.00,
-      ),
-      data: Colors.deepOrange.value,
     );
   }
 
@@ -101,23 +104,23 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gesture Detector'),
+        title: const Text('Gesture Detector'),
       ),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             _buildGestureDetector(),
-            Divider(
+            const Divider(
               color: Colors.black,
               height: 44.00,
             ),
             _buildDraggable(),
-            Divider(
+            const Divider(
               height: 40.00,
             ),
             _buildDragTarget(),
-            Divider(
+            const Divider(
               color: Colors.black,
             ),
             ElevatedButton(
@@ -125,11 +128,11 @@ class _HomeState extends State<Home> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Widgetmovingscaling(),
+                      builder: (context) => const Widgetmovingscaling(),
                     ),
                   );
                 },
-                child: Text('Gesturemovingandscaling'))
+                child: const Text('Gesturemovingandscaling'))
           ],
         ),
       )),

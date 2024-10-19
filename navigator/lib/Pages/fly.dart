@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 class Fly extends StatelessWidget {
+  const Fly({super.key});
+
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.shortestSide;
+    double width = MediaQuery.of(context).size.shortestSide;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Paint Brush'),
+        title: const Text('Paint Brush'),
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(16.00),
+          padding: const EdgeInsets.all(16.00),
           child: Column(
             children: <Widget>[
-              Center(
+              const Center(
                 child: Text("Paint brush"),
               ),
               Hero(
@@ -21,10 +23,10 @@ class Fly extends StatelessWidget {
                 child: Icon(
                   Icons.format_paint,
                   color: Colors.red,
-                  size: _width,
+                  size: width,
                 ),
               ),
-              Text('''This is a paint brush.
+              const Text('''This is a paint brush.
                       We use it to paint
                     and blah blah blah.''')
             ],

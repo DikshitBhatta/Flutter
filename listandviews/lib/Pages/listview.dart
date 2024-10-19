@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Listview extends StatefulWidget {
+  const Listview({super.key});
+
   @override
   _ListviewState createState() => _ListviewState();
 }
@@ -15,8 +17,8 @@ class _ListviewState extends State<Listview> {
             elevation: 5.00,
             shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.00),
-                borderSide: BorderSide(color: Colors.blue)),
-            child: ListTile(
+                borderSide: const BorderSide(color: Colors.blue)),
+            child: const ListTile(
               leading: Icon(Icons.flight),
               title: Text('Airplane 1'),
               trailing: Text(
@@ -36,8 +38,8 @@ class _ListviewState extends State<Listview> {
             elevation: 5.00,
             shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.00),
-                borderSide: BorderSide(color: Colors.blue)),
-            child: ListTile(
+                borderSide: const BorderSide(color: Colors.blue)),
+            child: const ListTile(
               leading: Icon(Icons.flight),
               title: Text('Airplane 2'),
               trailing: Text(
@@ -53,7 +55,7 @@ class _ListviewState extends State<Listview> {
               ),
             ),
           ),
-          ListTile(
+          const ListTile(
             leading: Icon(Icons.car_repair),
             title: Text(
               'Car',

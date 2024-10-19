@@ -4,8 +4,7 @@ import 'package:journal/blocs/journalentry_bloc.dart';
 class JournalentryblocProvider extends InheritedWidget {
   final JournalEditBloc journalEditBloc;
   const JournalentryblocProvider(
-      {Key? key, required Widget child, required this.journalEditBloc})
-      : super(key: key, child: child);
+      {super.key, required super.child, required this.journalEditBloc});
 
   static JournalentryblocProvider of(BuildContext context) {
     return (context

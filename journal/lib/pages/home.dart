@@ -15,6 +15,8 @@ import 'package:journal/services/db_firestore.dart';
 import 'package:journal/pages/edit_entry.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -37,9 +39,9 @@ class _HomeState extends State<Home> {
   void didChangeDepedencies() {
     super.didChangeDependencies();
     _authenticationBloc =
-        AuthenticationBlocProvider.of(context).authenticationBloc;
-    _homebloc = Homeblocprovider.of(context).homebloc;
-    _uid = Homeblocprovider.of(context).uid;
+        AuthenticationBlocProvider.of(context)?.authenticationBloc;
+    _homebloc = Homeblocprovider.of(context)?.homebloc;
+    _uid = Homeblocprovider.of(context)?.uid;
   }
 
   @override
@@ -55,7 +57,7 @@ class _HomeState extends State<Home> {
         builder: (BuildContext context) => JournalentryblocProvider(
           journalEditBloc:
               JournalEditBloc(add!, journal!, DbFirestoreServices()),
-          child: EditEntry(),
+          child: const EditEntry(),
         ),
         fullscreenDialog: true,
       ),
@@ -68,19 +70,19 @@ class _HomeState extends State<Home> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Delete Journal'),
-            content: Text('Are you sure want to delete the Journal?'),
+            title: const Text('Delete Journal'),
+            content: const Text('Are you sure want to delete the Journal?'),
             actions: <Widget>[
               TextButton(
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: Text('Cancel')),
+                  child: const Text('Cancel')),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context, true);
                 },
-                child: Text('Delete'),
+                child: const Text('Delete'),
               ),
             ],
           );
@@ -88,19 +90,25 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildListViewSeparated(AsyncSnapshot snapshot) {
+    if (_moodIcons == null || _formatdates == null) {
+      return const Center(
+        child: Text('Error: MoodIcons and Formatdates is not initialized'),
+      );
+    }
+
     return ListView.separated(
       itemCount: snapshot.data.length,
       itemBuilder: (BuildContext context, int index) {
-        String? _titleDate = _formatdates!
+        String? titleDate = _formatdates!
             .dateFormatShortMonthDayYear(snapshot.data[index].date);
-        String? _subtitle =
+        String? subtitle =
             snapshot.data[index].mood + "\n" + snapshot.data[index].note;
         return Dismissible(
             key: Key(snapshot.data[index].documentId),
             background: Container(
               color: Colors.red,
               alignment: Alignment.centerLeft,
-              child: Icon(
+              child: const Icon(
                 Icons.delete,
                 color: Colors.white,
               ),
@@ -108,7 +116,7 @@ class _HomeState extends State<Home> {
             secondaryBackground: Container(
               color: Colors.red,
               alignment: Alignment.centerRight,
-              child: Icon(
+              child: const Icon(
                 Icons.delete,
                 color: Colors.white,
               ),
@@ -119,7 +127,7 @@ class _HomeState extends State<Home> {
                   Text(
                     _formatdates!
                         .dateFormatDayNumber(snapshot.data[index].date)!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 32.0,
                       color: Colors.lightGreen,
@@ -141,10 +149,10 @@ class _HomeState extends State<Home> {
                 ),
               ),
               title: Text(
-                _titleDate!,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                titleDate!,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(_subtitle!),
+              subtitle: Text(subtitle!),
               onTap: () {
                 _addOrEditJournal(
                   add: false,
@@ -157,10 +165,11 @@ class _HomeState extends State<Home> {
               if (confirmDelete) {
                 _homebloc!.deleteJournal.add(snapshot.data[index]);
               }
+              return null;
             });
       },
       separatorBuilder: (BuildContext context, int index) {
-        return Divider(
+        return const Divider(
           color: Colors.grey,
         );
       },
@@ -169,6 +178,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    if (_uid == null) {
+      return const Login();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -179,7 +191,7 @@ class _HomeState extends State<Home> {
         ),
         elevation: 0.00,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(32.00),
+          preferredSize: const Size.fromHeight(32.00),
           child: Container(),
         ),
         flexibleSpace: Container(
@@ -208,7 +220,7 @@ class _HomeState extends State<Home> {
         stream: _homebloc!.listJournal,
         builder: ((BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
@@ -216,7 +228,7 @@ class _HomeState extends State<Home> {
           } else {
             return Center(
               child: Container(
-                child: Text("Add jounrals:"),
+                child: const Text("Add jounrals:"),
               ),
             );
           }
@@ -242,7 +254,7 @@ class _HomeState extends State<Home> {
         },
         tooltip: 'Add Journal Entry',
         backgroundColor: Colors.lightGreen.shade300,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

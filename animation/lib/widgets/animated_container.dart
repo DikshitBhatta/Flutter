@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class AnimatedContainerWidget extends StatefulWidget {
+  const AnimatedContainerWidget({super.key});
+
   @override
   _AnimatedContainerWidgetState createState() =>
       _AnimatedContainerWidgetState();
 }
 
 class _AnimatedContainerWidgetState extends State<AnimatedContainerWidget> {
-  double _height = 200.00;
+  final double _height = 200.00;
   double _width = 200.00;
   _increaseWidth() {
     setState(() {
@@ -22,7 +24,7 @@ class _AnimatedContainerWidgetState extends State<AnimatedContainerWidget> {
     return Row(
       children: <Widget>[
         AnimatedContainer(
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           curve: Curves.bounceInOut,
           color: Colors.amber,
           height: _height,

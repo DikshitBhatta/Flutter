@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class WidgetHeader extends StatelessWidget {
-  const WidgetHeader({Key? key}) : super(key: key);
+  const WidgetHeader({super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Image(

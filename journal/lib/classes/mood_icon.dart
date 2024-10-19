@@ -29,27 +29,27 @@ class MoodIcons {
 }
 
 List<MoodIcons> _moodIconList = <MoodIcons>[
-  MoodIcons(
+  const MoodIcons(
       title: 'Very Satisfied',
       color: Colors.amber,
       rotation: 0.4,
       icon: Icons.sentiment_very_satisfied),
-  MoodIcons(
+  const MoodIcons(
       title: 'Satisfied',
       color: Colors.green,
       rotation: 0.2,
       icon: Icons.sentiment_satisfied),
-  MoodIcons(
+  const MoodIcons(
       title: 'Neutral',
       color: Colors.grey,
       rotation: 0.0,
       icon: Icons.sentiment_neutral),
-  MoodIcons(
+  const MoodIcons(
       title: 'Dissatisfied',
       color: Colors.cyan,
       rotation: -0.02,
       icon: Icons.sentiment_dissatisfied),
-  MoodIcons(
+  const MoodIcons(
       title: 'Very Dissatisfied',
       color: Colors.red,
       rotation: -0.04,

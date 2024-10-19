@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Rowwidget extends StatelessWidget {
-  const Rowwidget({Key? key}) : super(key: key);
+  const Rowwidget({super.key});
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return const ListTile(
       leading: Icon(Icons.motorcycle),
       title: Text(
         'Motor Bike',

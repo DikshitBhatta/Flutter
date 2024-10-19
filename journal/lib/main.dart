@@ -17,29 +17,31 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final AuthenticationService _authenticationService =
+    final AuthenticationService authenticationService =
         AuthenticationService();
-    final AuthenticationBloc _authenticationBloc =
-        AuthenticationBloc(_authenticationService);
+    final AuthenticationBloc authenticationBloc =
+        AuthenticationBloc(authenticationService);
     return AuthenticationBlocProvider(
-      authenticationBloc: _authenticationBloc,
+      authenticationBloc: authenticationBloc,
       child: StreamBuilder(
           initialData: null,
-          stream: _authenticationBloc.User,
+          stream: authenticationBloc.User,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
                 color: Colors.lightGreen,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               );
             } else if (snapshot.hasData) {
               return Homeblocprovider(
-                  child: _buildMaterialApp(Home()),
                   homebloc:
-                      Homebloc(_authenticationService, DbFirestoreServices()),
-                  uid: snapshot.data);
+                      Homebloc(authenticationService, DbFirestoreServices()),
+                  uid: snapshot.data,
+                  child: _buildMaterialApp(Home()));
             } else {
               return _buildMaterialApp(Login());
             }
@@ -54,9 +56,9 @@ MaterialApp _buildMaterialApp(Widget homePage) {
     title: 'Journal',
     theme: ThemeData(
         primarySwatch: Colors.lightGreen,
-        appBarTheme: AppBarTheme(color: Colors.lightGreen),
+        appBarTheme: const AppBarTheme(color: Colors.lightGreen),
         canvasColor: Colors.lightGreen.shade50,
-        bottomAppBarTheme: BottomAppBarTheme(color: Colors.lightGreen)),
+        bottomAppBarTheme: const BottomAppBarTheme(color: Colors.lightGreen)),
     home: homePage,
   );
 }

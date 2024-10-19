@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:journal/pages/home.dart';
 import 'package:journal/services/authentication.dart';
 import 'package:journal/blocs/login_bloc.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   _LoginState createState() => _LoginState();
 }
@@ -15,6 +18,7 @@ class _LoginState extends State<Login> {
     _loginBloc = LoginBloc(AuthenticationService());
   }
 
+  @override
   void dispose() {
     _loginBloc.dispose();
     super.dispose();
@@ -43,21 +47,21 @@ class _LoginState extends State<Login> {
           stream: _loginBloc.enableLoginCreateButton,
           builder: (BuildContext context, AsyncSnapshot snapshot) =>
               ElevatedButton(
-                  child: Text('Login'),
                   style:
-                      ButtonStyle(
+                      const ButtonStyle(
                           elevation: WidgetStatePropertyAll(16.00),
                           backgroundColor:
                               WidgetStatePropertyAll(Colors.redAccent)),
                   onPressed: snapshot.data
                       ? () => _loginBloc.loginOrCreateChanged.add('Login')
-                      : null),
+                      : null,
+                  child: Text('Login')),
         ),
         TextButton(
             onPressed: () {
               _loginBloc.loginOrCreateButtonChanged.add('Create Account');
             },
-            child: Text('Create Account'))
+            child: const Text('Create Account'))
       ],
     );
   }
@@ -75,18 +79,38 @@ class _LoginState extends State<Login> {
                 ? () =>
                     _loginBloc.loginOrCreateButtonChanged.add("Create Account")
                 : null,
-            child: Text('Create Account'),
-            style: ButtonStyle(
+            style: const ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(Colors.redAccent),
               elevation: WidgetStatePropertyAll(16.00),
             ),
+            child: Text('Create Account'),
           ),
         ),
         TextButton(
             onPressed: () {
               _loginBloc.loginOrCreateButtonChanged.add('Login');
             },
-            child: Text('Login'))
+            child: const Text('Login')),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () async {
+            String result = await _loginBloc.createAccount();
+            if (result == 'success') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    fullscreenDialog: true, builder: (context) => Home()),
+              );
+            } else {
+              print(result);
+            }
+          },
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.grey),
+            elevation: WidgetStatePropertyAll(16.00),
+          ),
+          child: const Text('Submit'),
+        ),
       ],
     );
   }
@@ -95,7 +119,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        bottom: PreferredSize(
+        bottom: const PreferredSize(
           preferredSize: Size.fromHeight(40.00),
           child: Icon(
             Icons.account_circle,
@@ -106,7 +130,7 @@ class _LoginState extends State<Login> {
       ),
       body: SafeArea(
           child: SingleChildScrollView(
-        padding: EdgeInsets.all(16.00),
+        padding: const EdgeInsets.all(16.00),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -116,13 +140,15 @@ class _LoginState extends State<Login> {
                   TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                    labelText: 'Email Address',
-                    icon: Icon(Icons.mail_outline),
-                    errorText: snapshot.error.toString()),
-                onChanged: _loginBloc.emailChanged.add,
+                  labelText: 'Email Address',
+                  icon: const Icon(Icons.mail_outline),
+                  errorText:
+                      snapshot.hasError ? snapshot.error.toString() : null,
+                ),
+                onChanged: (email) => _loginBloc.emailChanged.add(email),
               ),
             ),
-            Divider(),
+            const Divider(),
             StreamBuilder(
               stream: _loginBloc.password,
               builder: (BuildContext context, AsyncSnapshot snapshot) =>
@@ -130,14 +156,16 @@ class _LoginState extends State<Login> {
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  icon: Icon(Icons.security),
-                  errorText: '${_loginBloc.passwordChanged.add}',
+                  icon: const Icon(Icons.security),
+                  errorText:
+                      snapshot.hasError ? snapshot.error.toString() : null,
                 ),
-                onChanged: _loginBloc.passwordChanged.add,
+                onChanged: (password) =>
+                    _loginBloc.passwordChanged.add(password),
               ),
             ),
-            Divider(),
-            SizedBox(height: 48.00),
+            const Divider(),
+            const SizedBox(height: 48.00),
             _buildLoginandCreateButtons(),
           ],
         ),

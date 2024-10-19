@@ -4,6 +4,8 @@ import 'fly.dart';
 import 'package:flutter/material.dart';
 
 class About extends StatefulWidget {
+  const About({super.key});
+
   @override
   _AboutState createState() => _AboutState();
 }
@@ -13,7 +15,7 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About Page'),
+        title: const Text('About Page'),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -23,9 +25,9 @@ class _AboutState extends State<About> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(16.00),
+          padding: const EdgeInsets.all(16.00),
           child: GestureDetector(
-            child: Hero(
+            child: const Hero(
               tag: 'Paint',
               child: Icon(
                 Icons.format_paint,

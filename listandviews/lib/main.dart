@@ -3,6 +3,8 @@ import 'package:listandviews/Pages/home.dart';
 void main()=>runApp(MyApp());
 
 class MyApp extends StatelessWidget{
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context){
     return MaterialApp(
@@ -10,7 +12,7 @@ class MyApp extends StatelessWidget{
       title: 'listandviewsexample',
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
-        appBarTheme: AppBarTheme(color: Colors.lightGreen),
+        appBarTheme: const AppBarTheme(color: Colors.lightGreen),
       ),
       home: Home(),
     );

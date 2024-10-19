@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AnimatedCrossfadeWidget extends StatefulWidget {
+  const AnimatedCrossfadeWidget({super.key});
+
   @override
   _AnimatedCrossfadeWidgetState createState() =>
       _AnimatedCrossfadeWidgetState();
@@ -36,13 +38,13 @@ class _AnimatedCrossfadeWidgetState extends State<AnimatedCrossfadeWidget> {
                   ? CrossFadeState.showFirst
                   : CrossFadeState.showSecond,
               sizeCurve: Curves.bounceOut,
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
             ),
             Positioned.fill(
                 //flatbutton is reszed to its maximum size above the continer widget
                 child: TextButton(
                     onPressed: () => _crossfade(),
-                    child: Text("Crossfade Animation")))
+                    child: const Text("Crossfade Animation")))
           ],
         )
       ],

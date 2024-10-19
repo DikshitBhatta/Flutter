@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -10,19 +12,19 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.view_list)),
-        title: Text('ImageExample'),
+        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.view_list)),
+        title: const Text('ImageExample'),
         actions: <Widget>[
-          IconButton(onPressed: () {}, icon: Icon(Icons.notification_add)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.message)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.notification_add)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.message)),
         ],
-        flexibleSpace: SafeArea(child: Icon(Icons.flag)),
+        flexibleSpace: const SafeArea(child: Icon(Icons.flag)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Stack(
+              const Stack(
                 children: <Widget>[
                   Image(
                     image: AssetImage("assets/images/photo.jpg"),
@@ -48,22 +50,22 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               Image.network(
                   'https://img.freepik.com/free-photo/snowy-mountain-peak-starry-galaxy-majesty-generative-ai_188544-9650.jpg?t=st=1724908706~exp=1724912306~hmac=c9f64e6193c137af3bc0bebc8624ccfc7a3c292ed1a0d2975724b433cb85cce4&w=2000'),
-              Divider(),
+              const Divider(),
               ElevatedButton(
                 onPressed: () {},
-                child: Icon(Icons.image),
+                child: const Icon(Icons.image),
               ),
-              Divider(),
+              const Divider(),
               const ImageandIconWidget(),
-              Divider(),
+              const Divider(),
               //Boxdecoration
               Container(
                 height: 100.00,
                 width: 100.00,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(40.00)),
                     color: Colors.orange,
                     boxShadow: [
@@ -74,11 +76,11 @@ class _HomeState extends State<Home> {
                       )
                     ]),
               ),
-              Divider(),
+              const Divider(),
               Container(
                 child: Column(
                   children: <Widget>[
-                    TextField(
+                    const TextField(
                       keyboardType: TextInputType.text,
                       style: TextStyle(
                         color: Colors.red,
@@ -90,11 +92,11 @@ class _HomeState extends State<Home> {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       thickness: 0.00,
                     ),
                     TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "Enter your notes",
                         border: OutlineInputBorder(),
                       ),
@@ -111,14 +113,14 @@ class _HomeState extends State<Home> {
 }
 
 class ImageandIconWidget extends StatelessWidget {
-  const ImageandIconWidget({Key? key}) : super(key: key);
+  const ImageandIconWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Image(
-          image: AssetImage("assets/images/chicken.jpg"),
+          image: const AssetImage("assets/images/chicken.jpg"),
           fit: BoxFit.cover,
           width: MediaQuery.of(context).size.width / 3,
         ),
@@ -126,7 +128,7 @@ class ImageandIconWidget extends StatelessWidget {
           'https://flutter.io/images/catalog­widget­placeholder.png',
           //width: MediaQuery.of(context).size.width / 3,
         ),
-        Icon(
+        const Icon(
           Icons.brush,
           color: Colors.lightBlue,
           size: 48.00,

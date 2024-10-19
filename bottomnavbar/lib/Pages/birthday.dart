@@ -5,6 +5,8 @@ import 'package:bottomnavbar/Pages/ball.dart';
 import 'package:bottomnavbar/Pages/spoon.dart';
 
 class Birthday extends StatefulWidget {
+  const Birthday({super.key});
+
   @override
   _birthdayState createState() => _birthdayState();
 }
@@ -12,6 +14,7 @@ class Birthday extends StatefulWidget {
 class _birthdayState extends State<Birthday>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
+  @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
     _tabController!.addListener(_tabChanged);
@@ -29,10 +32,11 @@ class _birthdayState extends State<Birthday>
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Drawer'),
+          title: const Text('Drawer'),
         ),
         drawer: const Leftwidget(),
         body: SafeArea(
@@ -46,7 +50,7 @@ class _birthdayState extends State<Birthday>
           controller: _tabController,
           labelColor: Colors.blue,
           unselectedLabelColor: Colors.black45,
-          tabs: [
+          tabs: const [
             Tab(
               icon: Icon(Icons.sports_football),
               text: 'Football',

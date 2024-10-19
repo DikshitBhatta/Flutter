@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class WidgetWeather extends StatelessWidget {
-  const WidgetWeather({Key? key}) : super(key: key);
+  const WidgetWeather({super.key});
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: <Widget>[
         Icon(
           Icons.sunny,

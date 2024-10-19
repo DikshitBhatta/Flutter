@@ -4,6 +4,8 @@ import 'package:bottomnavbar/Pages/reminder.dart';
 import 'package:bottomnavbar/Pages/spoon.dart';
 
 class MenuListTile extends StatefulWidget {
+  const MenuListTile({super.key});
+
   @override
   _MenuListTileState createState() => _MenuListTileState();
 }
@@ -14,8 +16,8 @@ class _MenuListTileState extends State<MenuListTile> {
     return Column(
       children: <Widget>[
         ListTile(
-            leading: Icon(Icons.sentiment_satisfied),
-            title: Text('Gratitude'),
+            leading: const Icon(Icons.sentiment_satisfied),
+            title: const Text('Gratitude'),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -24,8 +26,8 @@ class _MenuListTileState extends State<MenuListTile> {
               );
             }),
         ListTile(
-            leading: Icon(Icons.access_alarm),
-            title: Text('Reminder'),
+            leading: const Icon(Icons.access_alarm),
+            title: const Text('Reminder'),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -34,8 +36,8 @@ class _MenuListTileState extends State<MenuListTile> {
               );
             }),
         ListTile(
-            leading: Icon(Icons.food_bank_sharp),
-            title: Text('Foodbank'),
+            leading: const Icon(Icons.food_bank_sharp),
+            title: const Text('Foodbank'),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -43,10 +45,10 @@ class _MenuListTileState extends State<MenuListTile> {
                 MaterialPageRoute(builder: (context) => Graditude()),
               );
             }),
-        Divider(color: Colors.grey),
+        const Divider(color: Colors.grey),
         ListTile(
-          leading: Icon(Icons.settings),
-          title: Text('Settings'),
+          leading: const Icon(Icons.settings),
+          title: const Text('Settings'),
           onTap: () => Navigator.pop(context),
         ),
       ],

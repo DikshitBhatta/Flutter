@@ -4,6 +4,8 @@ import 'package:customscrollview/widgets/silver_list.dart';
 import 'package:customscrollview/widgets/silver_grid.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -13,14 +15,14 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CustomScrollbar'),
+        title: const Text('CustomScrollbar'),
         elevation: 0.00,
       ),
-      body: CustomScrollView(
+      body: const CustomScrollView(
         slivers: <Widget>[
-          const SilverAppBarWidget(),
-          const SilverListWidget(),
-          const SilverGridWidget(),
+          SilverAppBarWidget(),
+          SilverListWidget(),
+          SilverGridWidget(),
         ],
       ),
     );

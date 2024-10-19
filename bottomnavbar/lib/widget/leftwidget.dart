@@ -3,28 +3,29 @@ import 'package:bottomnavbar/Pages/reminder.dart';
 import 'package:flutter/material.dart';
 
 class Leftwidget extends StatelessWidget {
-  const Leftwidget({Key? key}) : super(key: key);
+  const Leftwidget({super.key});
+  @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text(
+            accountName: const Text(
               'Pika Pika',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            accountEmail: Text(
+            accountEmail: const Text(
               'Pikachu@gmail.com',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            currentAccountPicture: Icon(
+            currentAccountPicture: const Icon(
               Icons.face,
               size: 75.00,
               color: Colors.white,
             ),
             otherAccountsPictures: <Widget>[
               IconButton(
-                icon: Icon(Icons.bookmark_outline,
+                icon: const Icon(Icons.bookmark_outline,
                     color: Colors.white, fill: 1.00),
                 onPressed: () {
                   Navigator.pop(context);
@@ -33,7 +34,7 @@ class Leftwidget extends StatelessWidget {
                 },
               ),
             ],
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/pokemon.jpg'),
                 fit: BoxFit.cover,

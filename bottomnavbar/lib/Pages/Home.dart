@@ -4,14 +4,17 @@ import 'package:bottomnavbar/Pages/graditude.dart';
 import 'package:bottomnavbar/Pages/reminder.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _Homestate createState() => _Homestate();
 }
 
 class _Homestate extends State<Home> {
   int _currentIndex = 0;
-  List _listpages = [];
+  final List _listpages = [];
   Widget? _currentPage;
+  @override
   void initState() {
     super.initState();
     _listpages
@@ -32,17 +35,17 @@ class _Homestate extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('BottomNavBarExample'),
+        title: const Text('BottomNavBarExample'),
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(16.00),
+          padding: const EdgeInsets.all(16.00),
           child: _currentPage,
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.cake), label: 'Birthday'),
           BottomNavigationBarItem(
             icon: Icon(

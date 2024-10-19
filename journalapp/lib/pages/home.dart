@@ -4,6 +4,8 @@ import 'package:journalapp/pages/editentry.dart';
 import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -20,27 +22,27 @@ class _HomeState extends State<Home> {
   }
 
   void _addorEditJournal({bool? add, int? index, Journal? journal}) async {
-    JournalEdit _journalEdit = JournalEdit(action: " ", journal: journal!);
-    _journalEdit = await Navigator.push(
+    JournalEdit journalEdit = JournalEdit(action: " ", journal: journal!);
+    journalEdit = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => Editentry(
           add: add,
           index: index,
-          journalEdit: _journalEdit,
+          journalEdit: journalEdit,
         ),
         fullscreenDialog: true,
       ),
     );
-    switch (_journalEdit.action) {
+    switch (journalEdit.action) {
       case 'Save':
         if (add!) {
           setState(() {
-            _database.journal.add(_journalEdit.journal);
+            _database.journal.add(journalEdit.journal);
           });
         } else {
           setState(() {
-            _database.journal[index!] = _journalEdit.journal;
+            _database.journal[index!] = journalEdit.journal;
           });
         }
         DatabaseFileRoutines().writeJournals(databaseToJson(_database));
@@ -58,17 +60,17 @@ class _HomeState extends State<Home> {
     return ListView.separated(
       itemCount: snapshot.data.length,
       itemBuilder: (BuildContext context, int index) {
-        String _titleDate = DateFormat.yMMMd()
+        String titleDate = DateFormat.yMMMd()
             .format(DateTime.parse(snapshot.data[index].date));
-        String _subtitle =
+        String subtitle =
             snapshot.data[index].mood + '\n' + snapshot.data[index].note;
         return Dismissible(
           key: Key(snapshot.data[index].id),
           background: Container(
             color: Colors.red,
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.only(left: 16.00),
-            child: Icon(
+            padding: const EdgeInsets.only(left: 16.00),
+            child: const Icon(
               Icons.delete,
               color: Colors.white,
             ),
@@ -82,7 +84,7 @@ class _HomeState extends State<Home> {
                       child: Text(
                         DateFormat.d()
                             .format(DateTime.parse(snapshot.data[index].date)),
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.blue,
                           fontSize: 32.00,
                           fontWeight: FontWeight.bold,
@@ -93,7 +95,7 @@ class _HomeState extends State<Home> {
                       DateFormat.E().format(
                         DateTime.parse(snapshot.data[index].date),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black54,
                       ),
                     ),
@@ -101,10 +103,10 @@ class _HomeState extends State<Home> {
                 ),
               ),
               title: Text(
-                _titleDate,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                titleDate,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(_subtitle),
+              subtitle: Text(subtitle),
               onTap: () {
                 _addorEditJournal(
                   add: false,
@@ -122,7 +124,7 @@ class _HomeState extends State<Home> {
         );
       },
       separatorBuilder: (BuildContext context, int index) {
-        return Divider(
+        return const Divider(
           color: Colors.grey,
         );
       },
@@ -133,26 +135,26 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My journal'),
+        title: const Text('My journal'),
       ),
       body: FutureBuilder(
-          initialData: [],
+          initialData: const [],
           future: _loadJournals(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return !snapshot.hasData
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : _buildListViewSeperated(snapshot);
           }),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: const BottomAppBar(
         shape: CircularNotchedRectangle(),
         child: Padding(padding: EdgeInsets.all(24.00)),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
           tooltip: 'Add Journal Entry',
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
           onPressed: () {
             _addorEditJournal(add: true, index: -1, journal: Journal());
           }),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:animationcontroller/widget/animated_ballon.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -20,7 +22,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Animation Controller"),
+        title: const Text("Animation Controller"),
       ),
       body: SafeArea(
           child: Row(

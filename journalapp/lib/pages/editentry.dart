@@ -8,8 +8,8 @@ class Editentry extends StatefulWidget {
   final bool? add;
   final int? index;
   final JournalEdit journalEdit;
-  const Editentry({Key? key, this.add, this.index, required this.journalEdit})
-      : super(key: key);
+  const Editentry({super.key, this.add, this.index, required this.journalEdit});
+  @override
   _EditentryState createState() => _EditentryState();
 }
 
@@ -17,10 +17,10 @@ class _EditentryState extends State<Editentry> {
   JournalEdit? _journalEdit;
   String? _title;
   DateTime? _selectedDate;
-  TextEditingController _moodcontroller = TextEditingController();
-  TextEditingController _notecontroller = TextEditingController();
-  FocusNode _moodnode = FocusNode();
-  FocusNode _notenode = FocusNode();
+  final TextEditingController _moodcontroller = TextEditingController();
+  final TextEditingController _notecontroller = TextEditingController();
+  final FocusNode _moodnode = FocusNode();
+  final FocusNode _notenode = FocusNode();
 
   @override
   void initState() {
@@ -42,6 +42,7 @@ class _EditentryState extends State<Editentry> {
     }
   }
 
+  @override
   void dispose() {
     _moodcontroller.dispose();
     _notecontroller.dispose();
@@ -51,27 +52,28 @@ class _EditentryState extends State<Editentry> {
   }
 
   Future<DateTime> _selectDate(DateTime selectedDate) async {
-    DateTime _initialDate = selectedDate;
-    final DateTime? _pickeddate = await showDatePicker(
+    DateTime initialDate = selectedDate;
+    final DateTime? pickeddate = await showDatePicker(
       context: context,
-      initialDate: _initialDate,
-      firstDate: DateTime.now().subtract(Duration(days: 360)),
+      initialDate: initialDate,
+      firstDate: DateTime.now().subtract(const Duration(days: 360)),
       lastDate: DateTime.now().add(
-        Duration(days: 360),
+        const Duration(days: 360),
       ),
     );
-    if (_pickeddate != null) {
+    if (pickeddate != null) {
       selectedDate = DateTime(
-          _pickeddate.year,
-          _pickeddate.month,
-          _initialDate.day,
-          _initialDate.hour,
-          _initialDate.minute,
-          _initialDate.second);
+          pickeddate.year,
+          pickeddate.month,
+          initialDate.day,
+          initialDate.hour,
+          initialDate.minute,
+          initialDate.second);
     }
     return selectedDate;
   }
 
+  @override
   Widget build(BuildContext) {
     return Scaffold(
       appBar: AppBar(
@@ -80,54 +82,54 @@ class _EditentryState extends State<Editentry> {
       body: SafeArea(
           child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.00),
+          padding: const EdgeInsets.all(16.00),
           child: Column(
             children: <Widget>[
               TextButton(
                 onPressed: () async {
                   FocusScope.of(context).requestFocus(
                       FocusNode()); //dismiss the keyboard if any TextField wdget has focus.
-                  DateTime _pickeddate = await _selectedDate!;
+                  DateTime pickeddate = _selectedDate!;
                   setState(() {
-                    _selectedDate = _pickeddate;
+                    _selectedDate = pickeddate;
                   });
                 },
                 child: Padding(
-                  padding: EdgeInsets.all(0.00),
+                  padding: const EdgeInsets.all(0.00),
                   child: Row(
                     children: <Widget>[
-                      Icon(
+                      const Icon(
                         Icons.calendar_today,
                         size: 24,
                         color: Colors.black54,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 16.00,
                       ),
                       Text(
                         DateFormat.yMMMEd().format(_selectedDate!),
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black54,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_drop_down,
                           color: Colors.black54,
                         ),
                         onPressed: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
-                          DateTime? _pickdate = await showDatePicker(
+                          DateTime? pickdate = await showDatePicker(
                             context: context,
                             initialDate: _selectedDate ?? DateTime.now(),
                             firstDate:
-                                DateTime.now().subtract(Duration(days: 360)),
-                            lastDate: DateTime.now().add(Duration(days: 360)),
+                                DateTime.now().subtract(const Duration(days: 360)),
+                            lastDate: DateTime.now().add(const Duration(days: 360)),
                           );
-                          if (_pickdate != null && _pickdate != _selectedDate) {
+                          if (pickdate != null && pickdate != _selectedDate) {
                             setState(() {
-                              _selectedDate = _pickdate;
+                              _selectedDate = pickdate;
                             });
                           }
                         },
@@ -142,7 +144,7 @@ class _EditentryState extends State<Editentry> {
                 textInputAction: TextInputAction.next,
                 focusNode: _moodnode,
                 textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'MOOD',
                   icon: Icon(Icons.mood),
                 ),
@@ -156,7 +158,7 @@ class _EditentryState extends State<Editentry> {
                 textInputAction: TextInputAction.newline,
                 focusNode: _notenode,
                 textCapitalization: TextCapitalization.sentences,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'note',
                   icon: Icon(Icons.subject),
                 ),
@@ -170,22 +172,22 @@ class _EditentryState extends State<Editentry> {
                       _journalEdit!.action = 'Cancel';
                       Navigator.pop(context, _journalEdit);
                     },
-                    child: Text('Cancel'),
                     style: ButtonStyle(
                         textStyle: WidgetStatePropertyAll(
                             TextStyle(color: Colors.grey.shade100))),
+                    child: Text('Cancel'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8.0,
                   ),
                   TextButton(
                     onPressed: () {
                       _journalEdit!.action = 'Save';
-                      String? _id = widget.add!
+                      String? id = widget.add!
                           ? Random().nextInt(9999).toString()
                           : _journalEdit!.journal.id;
                       _journalEdit!.journal = Journal(
-                        id: _id,
+                        id: id,
                         date: _selectedDate.toString(),
                         mood: _moodcontroller.text,
                         note: _notecontroller.text,
@@ -193,10 +195,10 @@ class _EditentryState extends State<Editentry> {
 
                       Navigator.pop(context, _journalEdit);
                     },
-                    child: Text('Save'),
                     style: ButtonStyle(
                         textStyle: WidgetStatePropertyAll(
                             TextStyle(color: Colors.lightGreen.shade100))),
+                    child: Text('Save'),
                   ),
                 ],
               )
