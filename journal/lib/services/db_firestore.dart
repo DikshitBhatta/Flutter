@@ -4,7 +4,7 @@ import 'db_firestoreapi.dart';
 
 class DbFirestoreServices implements DbApi {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final String _collectionJournal = 'jounals';
+  final String _collectionJournal = 'journals';
 
   @override
   Stream<List<Journal>> getJournalList(String uid) {
@@ -58,12 +58,15 @@ class DbFirestoreServices implements DbApi {
       DocumentReference documentRefrence =
           firestore.collection(_collectionJournal).doc(journal.documentId);
       DocumentSnapshot docSnapshot = await Transaction.get(documentRefrence);
+      if (!docSnapshot.exists) {
+        throw Exception("Document does not exist!");
+      }
       Transaction.update(documentRefrence, {
         'date': journal.date,
         'mood': journal.mood,
         'note': journal.note,
       });
-    });
+    }).catchError((error) => print('Transaction error: $error'));
   }
 
   @override

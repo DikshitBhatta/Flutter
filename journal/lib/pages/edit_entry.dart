@@ -8,10 +8,10 @@ class EditEntry extends StatefulWidget {
   const EditEntry({super.key});
 
   @override
-  _EditEntryState createState() => _EditEntryState();
+  EditEntryState createState() => EditEntryState();
 }
 
-class _EditEntryState extends State<EditEntry> {
+class EditEntryState extends State<EditEntry> {
   JournalEditBloc? _journalEditBloc;
   MoodIcons? _moodIcons;
   Formatdates? _formatdates;
@@ -21,14 +21,17 @@ class _EditEntryState extends State<EditEntry> {
     super.initState();
     _moodIcons = const MoodIcons();
     _formatdates = Formatdates();
-    _noteController = TextEditingController();
-    _noteController!.text = '';
+    _noteController = TextEditingController(text: '');
   }
 
   @override
-  void didChangeDepedencies() {
+  void didChangeDependencies() {
     super.didChangeDependencies();
     _journalEditBloc = JournalentryblocProvider.of(context).journalEditBloc;
+    if (_journalEditBloc == null) {
+      print("JournalEditBloc is null");
+      return;
+    }
   }
 
   @override
@@ -128,14 +131,39 @@ class _EditEntryState extends State<EditEntry> {
               StreamBuilder(
                   stream: _journalEditBloc!.moodEdit,
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData) {
+                    if (!snapshot.hasData || _moodIcons == null) {
                       return Container();
                     }
+                    int moodIndex = _moodIcons!
+                        .getMoodIconList()
+                        .indexWhere((icon) => icon.title == snapshot.data);
+                    print(
+                        'Mood Index: $moodIndex, Mood List Length: ${_moodIcons!.getMoodIconList().length}');
+                    if (moodIndex == -1) {
+                      moodIndex = 0; // Default to first mood if not found
+                    } else if (moodIndex >=
+                        _moodIcons!.getMoodIconList().length) {
+                      moodIndex = _moodIcons!.getMoodIconList().length -
+                          1; // Prevent out-of-bounds
+                    }
+                    IconData? moodIcon = _moodIcons!.getMoodIcon(snapshot.data);
+                    Color? moodColor = _moodIcons!.getMoodColor(snapshot.data);
+                    double? moodRotation =
+                        _moodIcons!.getMoodRotation(snapshot.data);
+
+                    if (moodIcon == null ||
+                        moodColor == null ||
+                        moodRotation == null) {
+                      // Handle invalid mood
+                      print('Invalid mood selected: ${snapshot.data}');
+                      moodIcon = Icons.help; // Fallback icon
+                      moodColor = Colors.grey; // Fallback color
+                      moodRotation = 0.0; // Fallback rotation
+                    }
+
                     return DropdownButtonHideUnderline(
                       child: DropdownButton<MoodIcons>(
-                        value: _moodIcons!.getMoodIconList()[_moodIcons!
-                            .getMoodIconList()
-                            .indexWhere((icon) => icon.title == snapshot.data)],
+                        value: _moodIcons!.getMoodIconList()[moodIndex],
                         onChanged: (selected) {
                           _journalEditBloc!.moodEditChanged
                               .add(selected!.title!);
@@ -155,7 +183,7 @@ class _EditEntryState extends State<EditEntry> {
                                   child: Icon(
                                       _moodIcons!.getMoodIcon(selected.title!),
                                       color: _moodIcons!.getMoodColor(
-                                          selected.color.toString())!),
+                                          selected.color.toString())),
                                 ),
                                 const SizedBox(
                                   width: 16.00,
@@ -175,8 +203,8 @@ class _EditEntryState extends State<EditEntry> {
                       return Container();
                     }
 // Use the copyWith to make sure when you edit TextField the cursor does not bounce to the first character
-                    _noteController!.value =
-                        _noteController!.value.copyWith(text: snapshot.data);
+                    _noteController!.value = _noteController!.value
+                        .copyWith(text: snapshot.data ?? '');
                     return TextField(
                       controller: _noteController,
                       textInputAction: TextInputAction.newline,

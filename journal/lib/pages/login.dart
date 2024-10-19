@@ -12,6 +12,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   late LoginBloc _loginBloc;
+  String? errorMsg;
   @override
   void initState() {
     super.initState();
@@ -31,7 +32,7 @@ class _LoginState extends State<Login> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == 'Login') {
             return _buttonsLogin();
-          } else if (snapshot.data == 'CreateAccount') {
+          } else if (snapshot.data == 'Create Account') {
             return _buttonsCreateAcount();
           }
           return Container();
@@ -47,16 +48,40 @@ class _LoginState extends State<Login> {
           stream: _loginBloc.enableLoginCreateButton,
           builder: (BuildContext context, AsyncSnapshot snapshot) =>
               ElevatedButton(
-                  style:
-                      const ButtonStyle(
-                          elevation: WidgetStatePropertyAll(16.00),
-                          backgroundColor:
-                              WidgetStatePropertyAll(Colors.redAccent)),
+                  style: const ButtonStyle(
+                      elevation: WidgetStatePropertyAll(16.00),
+                      backgroundColor: WidgetStatePropertyAll(Colors.green)),
                   onPressed: snapshot.data
-                      ? () => _loginBloc.loginOrCreateChanged.add('Login')
+                      ? () async {
+                          String result = await _loginBloc.logIn();
+                          if (result == 'success') {
+                            if (mounted) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  fullscreenDialog: true,
+                                  builder: (context) => Home(),
+                                ),
+                              );
+                            }
+                          } else {
+                            setState(() {
+                              errorMsg = result;
+                            });
+                          }
+                        }
                       : null,
                   child: Text('Login')),
         ),
+        if (errorMsg != null)
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.00),
+            child: Text(
+              errorMsg!,
+              style: TextStyle(color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
+          ),
         TextButton(
             onPressed: () {
               _loginBloc.loginOrCreateButtonChanged.add('Create Account');
@@ -67,50 +92,49 @@ class _LoginState extends State<Login> {
   }
 
   Widget _buttonsCreateAcount() {
+    print('Rendering Create Account UI');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         StreamBuilder(
           initialData: false,
-          stream: _loginBloc.enableLoginCreateButton,
-          builder: (BuildContext context, AsyncSnapshot snapshot) =>
-              ElevatedButton(
-            onPressed: snapshot.data
-                ? () =>
-                    _loginBloc.loginOrCreateButtonChanged.add("Create Account")
-                : null,
-            style: const ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(Colors.redAccent),
-              elevation: WidgetStatePropertyAll(16.00),
-            ),
-            child: Text('Create Account'),
-          ),
+          stream: _loginBloc
+              .enableLoginCreateButton, // Enable Submit based on stream
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return ElevatedButton(
+              style: const ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(Colors.redAccent),
+                elevation: WidgetStatePropertyAll(16.00),
+              ),
+              onPressed: snapshot.data
+                  ? () async {
+                      print('Creating account...');
+                      String result = await _loginBloc.createAccount();
+                      if (result == 'success') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              fullscreenDialog: true,
+                              builder: (context) => Home()),
+                        );
+                      } else {
+                        print(result);
+                      }
+                    }
+                  : null,
+              child: const Text(
+                'Create Account',
+                style: TextStyle(color: Colors.black),
+              ),
+            );
+          },
         ),
+        const SizedBox(height: 20),
         TextButton(
             onPressed: () {
               _loginBloc.loginOrCreateButtonChanged.add('Login');
             },
             child: const Text('Login')),
-        const SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () async {
-            String result = await _loginBloc.createAccount();
-            if (result == 'success') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    fullscreenDialog: true, builder: (context) => Home()),
-              );
-            } else {
-              print(result);
-            }
-          },
-          style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Colors.grey),
-            elevation: WidgetStatePropertyAll(16.00),
-          ),
-          child: const Text('Submit'),
-        ),
       ],
     );
   }
@@ -138,31 +162,40 @@ class _LoginState extends State<Login> {
               stream: _loginBloc.email,
               builder: (BuildContext context, AsyncSnapshot snapshot) =>
                   TextField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  labelText: 'Email Address',
-                  icon: const Icon(Icons.mail_outline),
-                  errorText:
-                      snapshot.hasError ? snapshot.error.toString() : null,
-                ),
-                onChanged: (email) => _loginBloc.emailChanged.add(email),
-              ),
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        labelText: 'Email Address',
+                        icon: const Icon(Icons.mail_outline),
+                        errorText: snapshot.hasError
+                            ? snapshot.error.toString()
+                            : null,
+                      ),
+                      onChanged: (email) {
+                        _loginBloc.emailChanged.add(email);
+                        setState(() {
+                          errorMsg = null;
+                        });
+                      }),
             ),
             const Divider(),
             StreamBuilder(
               stream: _loginBloc.password,
               builder: (BuildContext context, AsyncSnapshot snapshot) =>
                   TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  icon: const Icon(Icons.security),
-                  errorText:
-                      snapshot.hasError ? snapshot.error.toString() : null,
-                ),
-                onChanged: (password) =>
-                    _loginBloc.passwordChanged.add(password),
-              ),
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        icon: const Icon(Icons.security),
+                        errorText: snapshot.hasError
+                            ? snapshot.error.toString()
+                            : null,
+                      ),
+                      onChanged: (password) {
+                        _loginBloc.passwordChanged.add(password);
+                        setState(() {
+                          errorMsg = null;
+                        });
+                      }),
             ),
             const Divider(),
             const SizedBox(height: 48.00),

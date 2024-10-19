@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:journal/model/journal.dart';
 import 'package:journal/services/db_firestoreapi.dart';
 
@@ -61,12 +62,19 @@ class JournalEditBloc {
       selectedJournal = Journal();
       selectedJournal.date = DateTime.now().toString();
       selectedJournal.mood = 'Very Satisfied';
-      selectedJournal.note = '';
-      selectedJournal.uid = journal.uid;
+      selectedJournal.note = ' ';
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      User? currentUser = auth.currentUser;
+      if (currentUser != null) {
+        selectedJournal.uid = currentUser.uid;
+      } else {
+        print('Error:No authenticated user.');
+      }
     } else {
       selectedJournal.date = journal.date;
       selectedJournal.mood = journal.mood;
       selectedJournal.note = journal.note;
+      selectedJournal.uid = journal.uid;
     }
     dateEditChanged.add(selectedJournal.date!);
     moodEditChanged.add(selectedJournal.mood!);
@@ -74,11 +82,16 @@ class JournalEditBloc {
   }
 
   void _saveJournal() {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    User? currentUser = auth.currentUser;
+    if (currentUser != null) {
+      selectedJournal.uid = currentUser.uid;
+    }
     Journal journal = Journal(
       documentId: selectedJournal.documentId,
       date: DateTime.parse(selectedJournal.date!).toString(),
-      mood: selectedJournal.mood,
-      note: selectedJournal.note,
+      mood: selectedJournal.mood ?? 'Very Satisfied',
+      note: selectedJournal.note ?? '',
       uid: selectedJournal.uid,
     );
     add ? dbApi.addJournal(journal) : dbApi.updateJournal(journal);

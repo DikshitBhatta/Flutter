@@ -21,8 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthenticationService authenticationService =
-        AuthenticationService();
+    final AuthenticationService authenticationService = AuthenticationService();
     final AuthenticationBloc authenticationBloc =
         AuthenticationBloc(authenticationService);
     return AuthenticationBlocProvider(
@@ -31,17 +30,22 @@ class MyApp extends StatelessWidget {
           initialData: null,
           stream: authenticationBloc.User,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
+            print('Snapshot Data: ${snapshot.data}');
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
                 color: Colors.lightGreen,
                 child: const CircularProgressIndicator(),
               );
-            } else if (snapshot.hasData) {
-              return Homeblocprovider(
-                  homebloc:
-                      Homebloc(authenticationService, DbFirestoreServices()),
-                  uid: snapshot.data,
-                  child: _buildMaterialApp(Home()));
+            } else if (snapshot.hasData && snapshot.data != null) {
+              if (snapshot.data == 'signed_out') {
+                return _buildMaterialApp(Login());
+              } else {
+                return Homeblocprovider(
+                    homebloc:
+                        Homebloc(authenticationService, DbFirestoreServices()),
+                    uid: snapshot.data,
+                    child: _buildMaterialApp(Home()));
+              }
             } else {
               return _buildMaterialApp(Login());
             }

@@ -3,17 +3,35 @@ import 'package:intl/intl.dart';
 
 class Formatdates {
   String? dateFormatShortMonthDayYear(String date) {
-    DateFormat.yMMMEd().format(DateTime.parse(date));
+    try {
+      if (date != null) {
+        return DateFormat.yMMMEd().format(DateTime.parse(date));
+      }
+    } catch (e) {
+      print('Error parseing date: $e');
+    }
     return null;
   }
 
   String? dateFormatDayNumber(String date) {
-    DateFormat.d().format(DateTime.parse(date));
+    try {
+      if (date != null) {
+        return DateFormat.d().format(DateTime.parse(date));
+      }
+    } catch (e) {
+      print('Error parseing date: $e');
+    }
     return null;
   }
 
   String? dateFormatShortDayName(String date) {
-    DateFormat.E().format(DateTime.parse(date));
+    try {
+      if (date != null) {
+        return DateFormat.E().format(DateTime.parse(date));
+      }
+    } catch (e) {
+      print('Error parseing date: $e');
+    }
     return null;
   }
 }

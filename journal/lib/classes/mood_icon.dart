@@ -8,27 +8,50 @@ class MoodIcons {
 
   const MoodIcons({this.title, this.color, this.rotation, this.icon});
 
+  int getMoodIndex(String mood) {
+    return moodIconList.indexWhere((icon) => icon.title == mood);
+  }
+
   IconData? getMoodIcon(String mood) {
-    return _moodIconList[_moodIconList.indexWhere((icon) => icon.title == mood)]
-        .icon;
+    int index = getMoodIndex(mood);
+    if (index >= 0 && index < moodIconList.length) {
+      return moodIconList[index].icon;
+    } else {
+      return null;
+    }
   }
 
   Color? getMoodColor(String mood) {
-    return _moodIconList[_moodIconList.indexWhere((icon) => icon.title == mood)]
-        .color;
+    int index = getMoodIndex(mood);
+    if (index >= 0 && index < moodIconList.length) {
+      return moodIconList[index].color;
+    } else {
+      return null;
+    }
   }
 
   double? getMoodRotation(String mood) {
-    return _moodIconList[_moodIconList.indexWhere((icon) => icon.title == mood)]
-        .rotation;
+    int index = getMoodIndex(mood);
+    if (index >= 0 && index < moodIconList.length) {
+      return moodIconList[index].rotation;
+    } else {
+      return null;
+    }
+  }
+
+  String getMoodTitle(String mood) {
+    int index = getMoodIndex(mood);
+    return index >= 0 && index < moodIconList.length
+        ? moodIconList[index].title ?? 'Unknown Mood'
+        : 'Unknown Mood';
   }
 
   List<MoodIcons> getMoodIconList() {
-    return _moodIconList;
+    return moodIconList;
   }
 }
 
-List<MoodIcons> _moodIconList = <MoodIcons>[
+List<MoodIcons> moodIconList = <MoodIcons>[
   const MoodIcons(
       title: 'Very Satisfied',
       color: Colors.amber,

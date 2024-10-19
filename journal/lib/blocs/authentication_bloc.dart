@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:journal/pages/login.dart';
 import 'package:journal/services/authentication_api.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
@@ -6,7 +8,7 @@ class AuthenticationBloc {
   final AuthenticationApi _authenticationApi;
 
   final StreamController<String> _authenticationController =
-      StreamController<String>();
+      StreamController<String>.broadcast();
   Sink<String> get addUser => _authenticationController.sink;
   Stream<String> get User => _authenticationController.stream;
 
@@ -33,7 +35,7 @@ class AuthenticationBloc {
 
     // Listen for logout events and trigger the sign out
     _logOutSubscription = _logOutController.stream.listen((shouldLogOut) {
-      if (shouldLogOut == true) {
+      if (shouldLogOut == 'true') {
         _signOut();
       }
     });
@@ -49,6 +51,12 @@ class AuthenticationBloc {
 
   // Sign-out function
   void _signOut() {
-    _authenticationApi.signOut();
+    _authenticationApi.signOut().then((_) {
+      print('User signed out');
+      addUser.add('signed_out');
+      //Navigator.of(context).pushReplacementNamed('/Login');
+    }).catchError((error) {
+      print('Error signing out : $error');
+    });
   }
 }

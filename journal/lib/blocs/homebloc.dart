@@ -11,9 +11,9 @@ class Homebloc {
   Sink<List<Journal>> get _addListJournal => _journalController.sink;
   Stream<List<Journal>> get listJournal => _journalController.stream;
 
-  final StreamController<List<Journal>> _journalDeleteController =
-      StreamController<List<Journal>>.broadcast();
-  Sink<List<Journal>> get deleteJournal => _journalDeleteController.sink;
+  final StreamController<Journal> _journalDeleteController =
+      StreamController<Journal>.broadcast();
+  Sink<Journal> get deleteJournal => _journalDeleteController.sink;
 
   Homebloc(this.authenticationApi, this.dbApi) {
     _startListner();
@@ -30,10 +30,8 @@ class Homebloc {
         print("Received journal data: ${journalDocs.length} entries");
         _addListJournal.add(journalDocs);
       });
-      _journalDeleteController.stream.listen((journalList) {
-        for (var journal in journalList) {
-          dbApi.deleteJournal(journal);
-        }
+      _journalDeleteController.stream.listen((journal) {
+        dbApi.deleteJournal(journal);
       });
     } else {
       print("No user is currently signed in.");

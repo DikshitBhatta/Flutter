@@ -25,18 +25,20 @@ class _HomeState extends State<Home> {
   AuthenticationBloc? _authenticationBloc;
   Homebloc? _homebloc;
   String? _uid;
-  MoodIcons? _moodIcons;
-  Formatdates? _formatdates;
+  MoodIcons? moodIcons;
+  Formatdates? formatdates;
   LoginBloc? _loginBloc;
 
   @override
   void initState() {
     super.initState();
     _loginBloc = LoginBloc(AuthenticationService());
+    moodIcons = MoodIcons();
+    formatdates = Formatdates();
   }
 
   @override
-  void didChangeDepedencies() {
+  void didChangeDependencies() {
     super.didChangeDependencies();
     _authenticationBloc =
         AuthenticationBlocProvider.of(context)?.authenticationBloc;
@@ -90,19 +92,25 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildListViewSeparated(AsyncSnapshot snapshot) {
-    if (_moodIcons == null || _formatdates == null) {
+    if (moodIcons == null || formatdates == null) {
       return const Center(
         child: Text('Error: MoodIcons and Formatdates is not initialized'),
+      );
+    }
+    if (!snapshot.hasData || snapshot.data.isEmpty) {
+      return const Center(
+        child: Text('No journal entries found.'),
       );
     }
 
     return ListView.separated(
       itemCount: snapshot.data.length,
       itemBuilder: (BuildContext context, int index) {
-        String? titleDate = _formatdates!
-            .dateFormatShortMonthDayYear(snapshot.data[index].date);
+        String? titleDate = formatdates!
+                .dateFormatShortMonthDayYear(snapshot.data[index].date) ??
+            DateTime.now().toString();
         String? subtitle =
-            snapshot.data[index].mood + "\n" + snapshot.data[index].note;
+            snapshot.data[index].mood + "\n" + snapshot.data[index].note ?? ' ';
         return Dismissible(
             key: Key(snapshot.data[index].documentId),
             background: Container(
@@ -125,26 +133,26 @@ class _HomeState extends State<Home> {
               leading: Column(
                 children: <Widget>[
                   Text(
-                    _formatdates!
+                    formatdates!
                         .dateFormatDayNumber(snapshot.data[index].date)!,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 32.0,
+                      fontSize: 27.0,
                       color: Colors.lightGreen,
                     ),
                   ),
-                  Text(_formatdates!
+                  Text(formatdates!
                       .dateFormatShortDayName(snapshot.data[index].date)!),
                 ],
               ),
               trailing: Transform(
                 transform: Matrix4.identity()
                   ..rotateZ(
-                      _moodIcons!.getMoodRotation(snapshot.data[index].mood)!),
+                      moodIcons!.getMoodRotation(snapshot.data[index].mood)!),
                 alignment: Alignment.center,
                 child: Icon(
-                  _moodIcons!.getMoodIcon(snapshot.data[index].mood),
-                  color: _moodIcons!.getMoodColor(snapshot.data[index].mood),
+                  moodIcons!.getMoodIcon(snapshot.data[index].mood),
+                  color: moodIcons!.getMoodColor(snapshot.data[index].mood),
                   size: 42.00,
                 ),
               ),
@@ -152,7 +160,10 @@ class _HomeState extends State<Home> {
                 titleDate!,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(subtitle!),
+              subtitle: Text(
+                subtitle!,
+                style: TextStyle(color: Colors.blueGrey),
+              ),
               onTap: () {
                 _addOrEditJournal(
                   add: false,
@@ -165,7 +176,7 @@ class _HomeState extends State<Home> {
               if (confirmDelete) {
                 _homebloc!.deleteJournal.add(snapshot.data[index]);
               }
-              return null;
+              return confirmDelete;
             });
       },
       separatorBuilder: (BuildContext context, int index) {
@@ -178,84 +189,92 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    if (_uid == null) {
-      return const Login();
-    }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Journal",
-          style: TextStyle(
-            color: Colors.lightGreen.shade800,
-          ),
-        ),
-        elevation: 0.00,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(32.00),
-          child: Container(),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.lightGreen, Colors.lightGreen.shade50],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              _authenticationBloc!.logOutUser
-                  .add(true.toString()); //Add signmout method
-            },
-            icon: Icon(
-              Icons.exit_to_app,
-              color: Colors.lightGreen.shade800,
-            ),
-          ),
-        ],
-      ),
-      body: StreamBuilder(
-        stream: _homebloc!.listJournal,
-        builder: ((BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasData) {
-            return _buildListViewSeparated(snapshot);
+    return StreamBuilder<String>(
+        stream: _authenticationBloc!.User,
+        builder: (context, snapshot) {
+          if (snapshot.data == 'signed_out') {
+            return const Login();
+          } else if (_uid == null) {
+            return const Login();
           } else {
-            return Center(
-              child: Container(
-                child: const Text("Add jounrals:"),
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  "Journal",
+                  style: TextStyle(
+                    color: Colors.lightGreen.shade800,
+                  ),
+                ),
+                elevation: 0.00,
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(32.00),
+                  child: Container(),
+                ),
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.lightGreen, Colors.lightGreen.shade50],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      _authenticationBloc!.logOutUser
+                          .add('true'); //Add signmout method
+                    },
+                    icon: Icon(
+                      Icons.exit_to_app,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+              body: StreamBuilder(
+                stream: _homebloc!.listJournal,
+                builder: ((BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasData) {
+                    return _buildListViewSeparated(snapshot);
+                  } else {
+                    return Center(
+                      child: Container(
+                        child: const Text("Add jounrals:"),
+                      ),
+                    );
+                  }
+                }),
+              ),
+              bottomNavigationBar: BottomAppBar(
+                elevation: 0.00,
+                child: Container(
+                  height: 44.00,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.lightGreen.shade50, Colors.lightGreen],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                ),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
+              floatingActionButton: FloatingActionButton(
+                onPressed: () async {
+                  _addOrEditJournal(add: true, journal: Journal(uid: _uid));
+                },
+                tooltip: 'Add Journal Entry',
+                backgroundColor: Colors.lightGreen.shade300,
+                child: const Icon(Icons.add),
               ),
             );
           }
-        }),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0.00,
-        child: Container(
-          height: 44.00,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.lightGreen.shade50, Colors.lightGreen],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          _addOrEditJournal(add: true, journal: Journal(uid: _uid));
-        },
-        tooltip: 'Add Journal Entry',
-        backgroundColor: Colors.lightGreen.shade300,
-        child: const Icon(Icons.add),
-      ),
-    );
+        });
   }
 }

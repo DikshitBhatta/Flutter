@@ -20,7 +20,8 @@ class LoginBloc extends Validator {
   final StreamController<String> _passwordController =
       StreamController<String>.broadcast();
   Sink<String> get passwordChanged => _passwordController.sink;
-  Stream<String> get password => _passwordController.stream;
+  Stream<String> get password =>
+      _passwordController.stream.transform(validatePassword);
 
   final StreamController<bool> _enableLoginCreateButtonController =
       StreamController<bool>.broadcast();
@@ -76,24 +77,37 @@ class LoginBloc extends Validator {
 
   void _updateEnableEmailLoginCreateButtonStream() {
     if (_emailValid == true && _passwordValid == true) {
+      print('Email and password are valid: enabling button');
       _enableLoginCreateButtonController.add(true);
-    } else {
+    } else if (_emailValid == false && _passwordValid == false) {
+      print('Email or password are invalid: disabling button');
       _enableLoginCreateButtonController.add(false);
     }
+  }
+
+  Future<String> logIn() async {
+    String result = await _logIn();
+    print('Log in result: $result');
+    return result;
   }
 
   Future<String> _logIn() async {
     String result = '';
     if (_emailValid == true && _passwordValid == true) {
-      await authenticationApi
-          .signInWithEmailAndPassword(email: _email!, password: _password!)
-          .then((User) {
-        result = 'success';
-      }).catchError((error) {
-        print("Login Error $error");
-        result = 'error';
-      });
-      return result;
+      result = await authenticationApi.signInWithEmailAndPassword(
+          email: _email!, password: _password!);
+
+      if (result != 'No user found for that email.' &&
+          result != 'Wrong password provided for that user.' &&
+          !result.startsWith('Error')) {
+        // If result is a valid UID, consider it a success
+        print('Log in success with UID: $result');
+        return 'success';
+      } else {
+        // Otherwise, return the error message
+        print('Log in error: $result');
+        return result;
+      }
     } else {
       return "Email and password are not valid";
     }

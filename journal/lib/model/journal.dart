@@ -1,4 +1,3 @@
-
 class Journal {
   String? documentId;
   String? date;
@@ -10,7 +9,7 @@ class Journal {
 
   factory Journal.fromDoc(dynamic doc) => Journal(
       //conveting adn mapping cloud firestore database document record
-      documentId: doc.documentId,
+      documentId: doc.id,
       date: doc['date'],
       mood: doc['mood'],
       note: doc['note'],
