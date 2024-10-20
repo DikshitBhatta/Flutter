@@ -9,6 +9,7 @@ import 'package:journal/blocs/homeblocProvider.dart';
 import 'package:journal/services/authentication.dart';
 import 'package:journal/services/db_firestore.dart';
 import 'package:journal/pages/login.dart';
+import 'dart:async';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     final AuthenticationService authenticationService = AuthenticationService();
@@ -26,31 +26,60 @@ class MyApp extends StatelessWidget {
         AuthenticationBloc(authenticationService);
     return AuthenticationBlocProvider(
       authenticationBloc: authenticationBloc,
-      child: StreamBuilder(
-          initialData: null,
-          stream: authenticationBloc.User,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            print('Snapshot Data: ${snapshot.data}');
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                color: Colors.lightGreen,
-                child: const CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasData && snapshot.data != null) {
-              if (snapshot.data == 'signed_out') {
-                return _buildMaterialApp(Login());
-              } else {
-                return Homeblocprovider(
-                    homebloc:
-                        Homebloc(authenticationService, DbFirestoreServices()),
-                    uid: snapshot.data,
-                    child: _buildMaterialApp(Home()));
-              }
-            } else {
-              return _buildMaterialApp(Login());
-            }
-          }),
+      child: SplashScreen(
+        authenticationBloc: authenticationBloc,
+        authenticationService: authenticationService,
+      ),
     );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  final AuthenticationBloc authenticationBloc;
+  final AuthenticationService authenticationService;
+  const SplashScreen({
+    required this.authenticationBloc,
+    required this.authenticationService,
+  });
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(Duration(seconds: 1), () {
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        initialData: null,
+        stream: widget.authenticationBloc.User,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          print('Snapshot Data: ${snapshot.data}');
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+              color: Colors.lightGreen,
+              child: const CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasData && snapshot.data != null) {
+            if (snapshot.data == 'signed_out') {
+              return _buildMaterialApp(Login());
+            } else {
+              return Homeblocprovider(
+                  homebloc: Homebloc(
+                      widget.authenticationService, DbFirestoreServices()),
+                  uid: snapshot.data,
+                  child: _buildMaterialApp(Home()));
+            }
+          } else {
+            return _buildMaterialApp(Login());
+          }
+        });
   }
 }
 
